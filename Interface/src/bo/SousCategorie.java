@@ -4,19 +4,19 @@ public class SousCategorie {
 	private int idSousCategorie;
 	private String nom;
 	private boolean interdit;
-	private Categorie categorie;
+	private int idCategorie;
 	
 	public SousCategorie(){
 		super();
 	}
 	
 	public SousCategorie(int idSousCategorie, String nom, boolean interdit,
-			Categorie categorie) {
+			int idCategorie) {
 		super();
 		this.idSousCategorie = idSousCategorie;
 		this.nom = nom;
 		this.interdit = interdit;
-		this.categorie = categorie;
+		this.idCategorie = idCategorie;
 	}
 
 	public int getIdSousCategorie() {
@@ -43,18 +43,18 @@ public class SousCategorie {
 		this.interdit = interdit;
 	}
 
-	public Categorie getCategorie() {
-		return categorie;
+	public int getIdCategorie() {
+		return idCategorie;
 	}
 
-	public void setCategorie(Categorie categorie) {
-		this.categorie = categorie;
+	public void setIdCategorie(int idCategorie) {
+		this.idCategorie = idCategorie;
 	}
 
 	@Override
 	public String toString() {
 		return "SousCategorie [idSousCategorie=" + idSousCategorie + ", nom="
-				+ nom + ", interdit=" + interdit + ", categorie=" + categorie
+				+ nom + ", interdit=" + interdit + ", idCategorie=" + idCategorie
 				+ "]";
 	}
 	

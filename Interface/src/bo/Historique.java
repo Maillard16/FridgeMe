@@ -4,21 +4,18 @@ import java.sql.Date;
 
 public class Historique {
 	private Date date_heure;
-	private Recette recette;
-	
+	private int idRecette;
 	
 	
 	public Historique() {
 		super();
 	}
 
-	public Historique(Date date_heure, Recette recette) {
+	public Historique(Date date_heure, int idRecette) {
 		super();
 		this.date_heure = date_heure;
-		this.recette = recette;
+		this.idRecette = idRecette;
 	}
-
-
 
 	public Date getDate_heure() {
 		return date_heure;
@@ -28,13 +25,21 @@ public class Historique {
 		this.date_heure = date_heure;
 	}
 	
-	public Recette getRecette() {
-		return recette;
+	public int getIdRecette() {
+		return idRecette;
 	}
 	
-	public void setRecette(Recette recette) {
-		this.recette = recette;
+	public void setIdRecette(int idRecette) {
+		this.idRecette = idRecette;
 	}
+
+	@Override
+	public String toString() {
+		return "Historique [date_heure=" + date_heure + ", idRecette="
+				+ idRecette + "]";
+	}
+	
+	
 	
 	
 }

@@ -4,21 +4,21 @@ public class Repas {
 	private int idRepas;
 	private int jour;
 	private int nombrePersonne;
-	private Recette recette;
-	private HeureRepas heureRepas;
+	private int idRecette;
+	private int idHeureRepas;
 	
 	public Repas(){
 		super();
 	}
 	
-	public Repas(int idRepas, int jour, int nombrePersonne, Recette recette,
-			HeureRepas heureRepas) {
+	public Repas(int idRepas, int jour, int nombrePersonne, int idRecette,
+			int idHeureRepas) {
 		super();
 		this.idRepas = idRepas;
 		this.jour = jour;
 		this.nombrePersonne = nombrePersonne;
-		this.recette = recette;
-		this.heureRepas = heureRepas;
+		this.idRecette = idRecette;
+		this.idHeureRepas = idHeureRepas;
 	}
 
 	public int getIdRepas() {
@@ -45,27 +45,27 @@ public class Repas {
 		this.nombrePersonne = nombrePersonne;
 	}
 
-	public Recette getRecette() {
-		return recette;
+	public int getIdRecette() {
+		return idRecette;
 	}
 
-	public void setRecette(Recette recette) {
-		this.recette = recette;
+	public void setIdRecette(int idRecette) {
+		this.idRecette = idRecette;
 	}
 
-	public HeureRepas getHeureRepas() {
-		return heureRepas;
+	public int getIdHeureRepas() {
+		return idHeureRepas;
 	}
 
-	public void setHeureRepas(HeureRepas heureRepas) {
-		this.heureRepas = heureRepas;
+	public void setIdHeureRepas(int idHeureRepas) {
+		this.idHeureRepas = idHeureRepas;
 	}
 
 	@Override
 	public String toString() {
 		return "Repas [idRepas=" + idRepas + ", jour=" + jour
-				+ ", nombrePersonne=" + nombrePersonne + ", recette=" + recette
-				+ ", heureRepas=" + heureRepas + "]";
+				+ ", nombrePersonne=" + nombrePersonne + ", idRecette=" + idRecette
+				+ ", idHeureRepas=" + idHeureRepas + "]";
 	}
 	
 	

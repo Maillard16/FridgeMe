@@ -1,8 +1,8 @@
 package bo;
 
 public class RecetteAliment {
-	private Aliment aliment;
-	private Recette recette;
+	private int idAliment;
+	private int idRecette;
 	private int quantite;
 	private int priorite;
 	private String nomComplet;
@@ -11,30 +11,30 @@ public class RecetteAliment {
 		super();
 	}
 	
-	public RecetteAliment(Aliment aliment, Recette recette, int quantite,
+	public RecetteAliment(int idAliment, int idRecette, int quantite,
 			int priorite, String nomComplet) {
 		super();
-		this.aliment = aliment;
-		this.recette = recette;
+		this.idAliment = idAliment;
+		this.idRecette = idRecette;
 		this.quantite = quantite;
 		this.priorite = priorite;
 		this.nomComplet = nomComplet;
 	}
 
-	public Aliment getAliment() {
-		return aliment;
+	public int getIdAliment() {
+		return idAliment;
 	}
 
-	public void setAliment(Aliment aliment) {
-		this.aliment = aliment;
+	public void setIdAliment(int idAliment) {
+		this.idAliment = idAliment;
 	}
 
-	public Recette getRecette() {
-		return recette;
+	public int getIdRecette() {
+		return idRecette;
 	}
 
-	public void setRecette(Recette recette) {
-		this.recette = recette;
+	public void setIdRecette(int idRecette) {
+		this.idRecette = idRecette;
 	}
 
 	public int getQuantite() {
@@ -63,7 +63,7 @@ public class RecetteAliment {
 
 	@Override
 	public String toString() {
-		return "RecetteAliment [aliment=" + aliment + ", recette=" + recette
+		return "RecetteAliment [idAliment=" + idAliment + ", idRecette=" + idRecette
 				+ ", quantite=" + quantite + ", priorite=" + priorite
 				+ ", nomComplet=" + nomComplet + "]";
 	}

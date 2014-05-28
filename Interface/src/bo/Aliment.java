@@ -9,8 +9,8 @@ public class Aliment {
 	private int idAliment;
 	private String nom;
 	private int quantite;
-	private SousCategorie sousCat;
-	private Unite unite;
+	private int idSousCat;
+	private int idUnite;
 	
 	
 	
@@ -19,13 +19,13 @@ public class Aliment {
 	}
 
 	public Aliment(int idAliment, String nom, int quantite,
-			SousCategorie sousCat, Unite unite) {
+			int idSousCat, int idUnite) {
 		super();
 		this.idAliment = idAliment;
 		this.nom = nom;
 		this.quantite = quantite;
-		this.sousCat = sousCat;
-		this.unite = unite;
+		this.idSousCat = idSousCat;
+		this.idUnite = idUnite;
 	}
 
 	public int getIdAliment() {
@@ -52,29 +52,30 @@ public class Aliment {
 		this.quantite = quantite;
 	}
 
-	public SousCategorie getSousCat() {
-		return sousCat;
+	
+	public int getIdSousCat() {
+		return idSousCat;
 	}
 
-	public void setSousCat(SousCategorie sousCat) {
-		this.sousCat = sousCat;
+	public void setIdSousCat(int idSousCat) {
+		this.idSousCat = idSousCat;
 	}
 
-	public Unite getUnite() {
-		return unite;
+	public int getIdUnite() {
+		return idUnite;
 	}
 
-	public void setUnite(Unite unite) {
-		this.unite = unite;
+	public void setIdUnite(int idUnite) {
+		this.idUnite = idUnite;
 	}
 
 	@Override
 	public String toString() {
 		return "Aliment [idAliment=" + idAliment + ", nom=" + nom
-				+ ", quantite=" + quantite + ", sousCat=" + sousCat
-				+ ", unite=" + unite + "]";
+				+ ", quantite=" + quantite + ", idSousCat=" + idSousCat
+				+ ", idUnite=" + idUnite + "]";
 	}
-	
+
 	
 	
 	

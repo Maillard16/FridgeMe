@@ -10,7 +10,7 @@ public class Recette {
 	private String image;
 	private int nombrePersonne;
 	private int nombrePersonneFlexible;
-	private TypeRecette typeRecette;
+	private int idTypeRecette;
 	
 	public Recette(){
 		super();
@@ -19,7 +19,7 @@ public class Recette {
 	public Recette(int idRecette, String nom, String description,
 			int tempsCuisson, int tempsPreparation, boolean favoris,
 			String image, int nombrePersonne, int nombrePersonneFlexible,
-			TypeRecette typeRecette) {
+			int idTypeRecette) {
 		super();
 		this.idRecette = idRecette;
 		this.nom = nom;
@@ -30,7 +30,7 @@ public class Recette {
 		this.image = image;
 		this.nombrePersonne = nombrePersonne;
 		this.nombrePersonneFlexible = nombrePersonneFlexible;
-		this.typeRecette = typeRecette;
+		this.idTypeRecette = idTypeRecette;
 	}
 
 	public int getIdRecette() {
@@ -105,12 +105,12 @@ public class Recette {
 		this.nombrePersonneFlexible = nombrePersonneFlexible;
 	}
 
-	public TypeRecette getTypeRecette() {
-		return typeRecette;
+	public int getIdTypeRecette() {
+		return idTypeRecette;
 	}
 
-	public void setTypeRecette(TypeRecette typeRecette) {
-		this.typeRecette = typeRecette;
+	public void setIdTypeRecette(int idTypeRecette) {
+		this.idTypeRecette = idTypeRecette;
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class Recette {
 				+ ", favoris=" + favoris + ", image=" + image
 				+ ", nombrePersonne=" + nombrePersonne
 				+ ", nombrePersonneFlexible=" + nombrePersonneFlexible
-				+ ", typeRecette=" + typeRecette + "]";
+				+ ", idTypeRecette=" + idTypeRecette + "]";
 	}
 	
 	
