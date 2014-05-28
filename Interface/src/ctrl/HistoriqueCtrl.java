@@ -2,6 +2,6 @@ package ctrl;
 
 import bo.Historique;
 
-public class HistoriqueCtrl extends Ctrl<Historique>{
+public class HistoriqueCtrl {
 	
 }
