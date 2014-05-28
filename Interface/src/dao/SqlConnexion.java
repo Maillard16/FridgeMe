@@ -3,8 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import javax.management.InstanceAlreadyExistsException;
-
 public class SqlConnexion {
 	private static SqlConnexion instance = null;
 	private static Connection connect;
