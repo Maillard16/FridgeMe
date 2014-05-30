@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import bo.Categorie;
 import bo.Repas;
 
 public class RepasDao extends Dao<Repas> {

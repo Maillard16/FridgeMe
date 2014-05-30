@@ -9,7 +9,7 @@ public class Recette {
 	private boolean favoris;
 	private String image;
 	private int nombrePersonne;
-	private int nombrePersonneFlexible;
+	private boolean nombrePersonneFlexible;
 	private int idTypeRecette;
 	
 	public Recette(){
@@ -18,7 +18,7 @@ public class Recette {
 	
 	public Recette(int idRecette, String nom, String description,
 			int tempsCuisson, int tempsPreparation, boolean favoris,
-			String image, int nombrePersonne, int nombrePersonneFlexible,
+			String image, int nombrePersonne, boolean nombrePersonneFlexible,
 			int idTypeRecette) {
 		super();
 		this.idRecette = idRecette;
@@ -97,11 +97,11 @@ public class Recette {
 		this.nombrePersonne = nombrePersonne;
 	}
 
-	public int getNombrePersonneFlexible() {
+	public boolean getNombrePersonneFlexible() {
 		return nombrePersonneFlexible;
 	}
 
-	public void setNombrePersonneFlexible(int nombrePersonneFlexible) {
+	public void setNombrePersonneFlexible(boolean nombrePersonneFlexible) {
 		this.nombrePersonneFlexible = nombrePersonneFlexible;
 	}
 

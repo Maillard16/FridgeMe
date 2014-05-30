@@ -3,6 +3,7 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import bo.Unite;
 
@@ -42,5 +43,25 @@ public class UniteDao extends Dao<Unite> {
 	    }
 	    return null;
 	}
-
+	
+	public Vector<Unite> getListUnit() {
+		Vector<Unite> listUnite = new Vector<Unite>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM unite");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	        listUnite.add(new Unite(
+	          rs.getInt("id_unite"),
+	          rs.getString("abreviation"),
+	          rs.getString("nom")
+	        ));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return listUnite;
+	}
+	
 }

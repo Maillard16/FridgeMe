@@ -68,7 +68,7 @@ public class PrincipaleFrame extends JFrame {
 	private JButton btnNewButton_3;
 	private JList listFrigo;
 	private JButton btnAceuilVoirRecette;
-	private JComboBox comboBox;
+	private JComboBox listUniteCombo;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
@@ -355,10 +355,10 @@ public class PrincipaleFrame extends JFrame {
 		lblUnit.setBounds(30, 111, 39, 14);
 		panel_7.add(lblUnit);
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"g", "kg", "Pi\u00E8ces"}));
-		comboBox.setBounds(78, 108, 83, 20);
-		panel_7.add(comboBox);
+		listUniteCombo = new JComboBox();
+		listUniteCombo.setModel(new DefaultComboBoxModel(new String[] {"g", "kg", "Pi\u00E8ces"}));
+		listUniteCombo.setBounds(78, 108, 83, 20);
+		panel_7.add(listUniteCombo);
 		
 		btnNewButton_3 = new JButton("");
 		btnNewButton_3.setIcon(new ImageIcon("./trouver-recherche-zoom-icone-3738-32.png"));
@@ -641,10 +641,10 @@ public class PrincipaleFrame extends JFrame {
 
         Vector<String> titre = new Vector<String>();
         titre.add("Nom");
-        titre.add("Quantité ");
-        titre.add("Unité");
-        titre.add("Supprimer (quantité)");
-        titre.add("Ajouter (quantité)");
+        titre.add("Quantitï¿½ ");
+        titre.add("Unitï¿½");
+        titre.add("Supprimer (quantitï¿½)");
+        titre.add("Ajouter (quantitï¿½)");
         
         Vector<Object> matrice = new Vector<Object>();
         for(int i = 0; i < 10; i++){
@@ -674,7 +674,7 @@ public class PrincipaleFrame extends JFrame {
 		panel_7.enable(value);
 		textField.enable(value);
 		textField_1.enable(value);
-		comboBox.enable(value);
+		listUniteCombo.enable(value);
 		table.setEnabled(value);
 	}
 	

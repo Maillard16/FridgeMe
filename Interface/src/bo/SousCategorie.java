@@ -35,7 +35,7 @@ public class SousCategorie {
 		this.nom = nom;
 	}
 
-	public boolean isInterdit() {
+	public boolean getInterdit() {
 		return interdit;
 	}
 

@@ -1,6 +1,11 @@
 package dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import bo.TypeRecette;
+import bo.Unite;
 
 public class TypeRecetteDao extends Dao<TypeRecette> {
 
@@ -24,8 +29,23 @@ public class TypeRecetteDao extends Dao<TypeRecette> {
 
 	@Override
 	public TypeRecette find(int id) {
-		// TODO Auto-generated method stub
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM type_recette WHERE id_type_recette = " + id);
+	      rs = s.executeQuery();
+	      if(rs.first())
+	        return new TypeRecette(
+	          id,
+	          rs.getString("nom")
+	        );         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
 		return null;
 	}
-
+	
+	
+	
 }
