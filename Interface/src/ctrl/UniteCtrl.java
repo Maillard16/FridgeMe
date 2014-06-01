@@ -18,8 +18,8 @@ public class UniteCtrl {
 	public void setUniteList(JComboBox comboUnite){
 		UniteDao uniteDao = new UniteDao();
 		comboUnite.setModel(new DefaultComboBoxModel(uniteDao.getListUnit()));
-		
-		
 	}
+	
+	
 	
 }

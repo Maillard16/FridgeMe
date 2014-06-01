@@ -54,7 +54,7 @@ public class AlimentDao extends Dao<Aliment> {
 		ResultSet rs;
 		Vector<Aliment> listAliment = new Vector<Aliment>();
 	    try {
-	      s = connect.prepareStatement("SELECT * FROM aliment WHERE nom = " + nom);
+	      s = connect.prepareStatement("SELECT * FROM aliment WHERE nom LIKE " + nom);
 	      rs = s.executeQuery();
 	      while(rs.next()) {
 	    	  Aliment a = new Aliment(
