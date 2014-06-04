@@ -11,7 +11,7 @@ public class UniteCtrl {
 	static UniteDao uniteDao = new UniteDao();
 	
 	static public void setUniteList(JComboBox<String> comboUnite){
-		Vector<Unite> unites = uniteDao.getListUnit();
+		Vector<Unite> unites = uniteDao.getListAllItems();
 		comboUnite.removeAllItems();
 		for (Unite unite : unites) {
 			comboUnite.addItem(unite.getNom());

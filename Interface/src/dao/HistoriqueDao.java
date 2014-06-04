@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import bo.Aliment;
 import bo.Historique;
 
 public class HistoriqueDao extends Dao<Historique> {
@@ -71,6 +73,27 @@ public class HistoriqueDao extends Dao<Historique> {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public Vector<Historique> getListAllItems() {
+		Vector<Historique> list = new Vector<Historique>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM historique");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new Historique(
+						rs.getDate("date_heure"),
+						rs.getInt("id_recette")
+						));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
 	}
 
 }

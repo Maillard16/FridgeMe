@@ -3,7 +3,9 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import bo.Aliment;
 import bo.RecetteAliment;
 
 public class RecetteAlimentDao extends Dao<RecetteAliment> {
@@ -54,6 +56,30 @@ public class RecetteAlimentDao extends Dao<RecetteAliment> {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Override
+	public Vector<RecetteAliment> getListAllItems() {
+		Vector<RecetteAliment> list = new Vector<RecetteAliment>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM recette_aliment");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new RecetteAliment(
+	    			  	rs.getInt("id_recette"),
+	    			  	rs.getInt("id_aliment"),
+						rs.getInt("quantite"),
+						rs.getInt("priorite"),
+						rs.getString("nom_complet")
+						));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
 	}
 	
 	

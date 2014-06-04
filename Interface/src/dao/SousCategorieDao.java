@@ -3,7 +3,9 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import bo.Aliment;
 import bo.SousCategorie;
 
 
@@ -57,6 +59,28 @@ public class SousCategorieDao extends Dao<SousCategorie> {
 	      e.printStackTrace();
 	    }
 	    return null;
+	}
+	
+	@Override
+	public Vector<SousCategorie> getListAllItems() {
+		Vector<SousCategorie> list = new Vector<SousCategorie>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM sous_categorie");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new SousCategorie(
+	    	          rs.getInt("id_sous_categorie"),
+	    	          rs.getString("nom"),
+	    	          rs.getBoolean("interdit"),
+	    	          rs.getInt("id_categories")));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
 	}
 	
 }

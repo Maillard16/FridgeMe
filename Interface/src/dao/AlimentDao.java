@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import bo.Aliment;
+import bo.Unite;
 
 public class AlimentDao extends Dao<Aliment> {
 
@@ -58,7 +59,7 @@ public class AlimentDao extends Dao<Aliment> {
 	      rs = s.executeQuery();
 	      while(rs.next()) {
 	    	  Aliment a = new Aliment(
-	          rs.getInt("id"),
+	          rs.getInt("id_aliment"),
 	          rs.getString("nom"),
 	          rs.getInt("quantite"),
 	          rs.getInt("id_sous_categorie"),
@@ -71,6 +72,30 @@ public class AlimentDao extends Dao<Aliment> {
 	      e.printStackTrace();
 	    }
 		return null;
+	}
+
+	@Override
+	public Vector<Aliment> getListAllItems() {
+		Vector<Aliment> list = new Vector<Aliment>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM aliment");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new Aliment(
+	    	          rs.getInt("id_aliment"),
+	    	          rs.getString("nom"),
+	    	          rs.getInt("quantite"),
+	    	          rs.getInt("id_sous_categorie"),
+	    	          rs.getInt("id_unite")
+	    	          ));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
 	}
 
 }

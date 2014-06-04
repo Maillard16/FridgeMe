@@ -44,7 +44,7 @@ public class UniteDao extends Dao<Unite> {
 	    return null;
 	}
 	
-	public Vector<Unite> getListUnit() {
+	public Vector<Unite> getListAllItems() {
 		Vector<Unite> listUnite = new Vector<Unite>();
 		PreparedStatement s;
 		ResultSet rs;

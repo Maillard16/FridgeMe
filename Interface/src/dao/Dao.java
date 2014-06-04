@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.Connection;
+import java.util.Vector;
+
+import bo.Unite;
 
 public abstract class Dao<Element> {
 	protected Connection connect = null;
@@ -10,7 +13,7 @@ public abstract class Dao<Element> {
 	}
 
 	/**
-	 * Méthode de création
+	 * Mï¿½thode de crï¿½ation
 	 * 
 	 * @param obj
 	 * @return boolean
@@ -18,7 +21,7 @@ public abstract class Dao<Element> {
 	public abstract boolean create(Element obj);
 
 	/**
-	 * Méthode pour effacer
+	 * Mï¿½thode pour effacer
 	 * 
 	 * @param obj
 	 * @return boolean
@@ -26,7 +29,7 @@ public abstract class Dao<Element> {
 	public abstract boolean delete(Element obj);
 
 	/**
-	 * Méthode de mise à jour
+	 * Mï¿½thode de mise ï¿½ jour
 	 * 
 	 * @param obj
 	 * @return boolean
@@ -34,11 +37,14 @@ public abstract class Dao<Element> {
 	public abstract boolean update(Element obj);
 
 	/**
-	 * Méthode de recherche des informations
+	 * Mï¿½thode de recherche des informations
 	 * 
 	 * @param id
 	 * @return T
 	 */
 	public abstract Element find(int id);
+	
+	
+	public abstract Vector<Element> getListAllItems();
 
 }
