@@ -45,6 +45,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
 
+import ctrl.UniteCtrl;
 import bo.*;
 
 import java.awt.event.KeyEvent;
@@ -71,7 +72,7 @@ public class PrincipaleFrame extends JFrame {
 	private JButton btnNomAjouterAliment;
 	private JList listFrigo;
 	private JButton btnAceuilVoirRecette;
-	private JComboBox listUniteCombo;
+	private JComboBox comboBoxUniteAjoutAliment;
 	private JPanel panelFrigo;
 	private JPanel panelJaiFaim;
 	private JPanel panelPlanning;
@@ -373,10 +374,11 @@ public class PrincipaleFrame extends JFrame {
 		lblUniteAjouterAliment.setBounds(30, 111, 39, 14);
 		panelAjouterAlimentFrigo.add(lblUniteAjouterAliment);
 		
-		listUniteCombo = new JComboBox();
-		listUniteCombo.setModel(new DefaultComboBoxModel(new String[] {"g", "kg", "Pi\u00E8ces"}));
-		listUniteCombo.setBounds(78, 108, 83, 20);
-		panelAjouterAlimentFrigo.add(listUniteCombo);
+		comboBoxUniteAjoutAliment = new JComboBox();
+		//comboBoxUniteAjoutAliment.setModel(new DefaultComboBoxModel(new String[] {"g", "kg", "Pi\u00E8ces"}));
+		UniteCtrl.setUniteList(comboBoxUniteAjoutAliment);
+		comboBoxUniteAjoutAliment.setBounds(78, 108, 83, 20);
+		panelAjouterAlimentFrigo.add(comboBoxUniteAjoutAliment);
 		
 		btnNomAjouterAliment = new JButton("");
 		btnNomAjouterAliment.setIcon(new ImageIcon("./trouver-recherche-zoom-icone-3738-32.png"));
@@ -684,7 +686,7 @@ public class PrincipaleFrame extends JFrame {
 		panelAjouterAlimentFrigo.enable(value);
 		textFieldNomAjouterAliment.enable(value);
 		textFieldQuantiteAjouterAliment.enable(value);
-		listUniteCombo.enable(value);
+		comboBoxUniteAjoutAliment.enable(value);
 		table.setEnabled(value);
 	}
 	

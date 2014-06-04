@@ -10,7 +10,7 @@ public class SqlConnexion {
 	private SqlConnexion() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connect = DriverManager.getConnection("jdbc:sqlite:fridgeMe.db");
+			connect = DriverManager.getConnection("jdbc:sqlite:database/FridgeMe.db");
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		}

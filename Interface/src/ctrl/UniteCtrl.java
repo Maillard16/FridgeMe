@@ -8,11 +8,10 @@ import dao.UniteDao;
 import bo.Unite;
 
 public class UniteCtrl {
-	Vector<Unite> unites;
-	UniteDao uniteDao = new UniteDao();
+	static UniteDao uniteDao = new UniteDao();
 	
-	public void setUniteList(JComboBox<String> comboUnite){
-		unites = uniteDao.getListUnit();
+	static public void setUniteList(JComboBox<String> comboUnite){
+		Vector<Unite> unites = uniteDao.getListUnit();
 		comboUnite.removeAllItems();
 		for (Unite unite : unites) {
 			comboUnite.addItem(unite.getNom());
