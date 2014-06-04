@@ -25,6 +25,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import javax.swing.JTable;
@@ -44,6 +45,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
 
+import bo.*;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.io.BufferedReader;
@@ -59,34 +62,44 @@ public class PrincipaleFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JPanel panel ;
-	private JTabbedPane tabbedPane;
-	private JPanel panel_6;
+	private JTextField textFieldNomAjouterAliment;
+	private JTextField textFieldQuantiteAjouterAliment;
+	private JPanel panelAcceuil ;
+	private JTabbedPane tabbedPaneMain;
+	private JPanel panelFrigoAcceuil;
 	private JButton btnOuvrirFrigo; 
-	private JButton btnNewButton_3;
+	private JButton btnNomAjouterAliment;
 	private JList listFrigo;
 	private JButton btnAceuilVoirRecette;
 	private JComboBox listUniteCombo;
-	private JPanel panel_1;
-	private JPanel panel_2;
-	private JPanel panel_3;
-	private JPanel panel_4;
-	private JPanel panel_5;
-	private JPanel panel_7;
-	private JPanel panel_8;
+	private JPanel panelFrigo;
+	private JPanel panelJaiFaim;
+	private JPanel panelPlanning;
+	private JPanel panelRecherche;
+	private JPanel panelParametres;
+	private JPanel panelAjouterAlimentFrigo;
+	private JPanel panelListeAlimentFrigo;
 	private JScrollPane scrollPane;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField textFieldMotCleRecherche;
+	private JTextField textFieldDureeMinRecherche;
+	private JTextField textFieldDureeMaxRecherche;
+	private JTextField textFieldNbPersonneParametre;
 	private JButton btnFermerFrigo;
 	private JList listHistorique;
 	private JList listFavoris;
 	private JMenu mnFichier;
-	private JComboBox comboBox_1;
+	private JComboBox comboBoxCouleurParametre;
 	
+	
+//	private LinkedList<Aliment> aliments;
+//	private LinkedList<Categorie> categories;
+//	private LinkedList<HeureRepas> heuresrepas;
+//	private LinkedList<Recette> recettes;
+//	private LinkedList<RecetteAliment> recettesAliments;
+//	private LinkedList<Repas> repas;
+//	private LinkedList<SousCategorie> sousCategories;
+//	private LinkedList<TypeRecette> typesRecette;
+//	private LinkedList<Unite> unites;
 	
 
 	/**
@@ -105,11 +118,16 @@ public class PrincipaleFrame extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
 	public PrincipaleFrame() {
+		initialize();
+	}
+
+
+	private void initialize() {
 		setTitle("Fridge Me");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 888, 428);
@@ -135,7 +153,7 @@ public class PrincipaleFrame extends JFrame {
 		JMenuItem mntmParamtres = new JMenuItem("Param\u00E8tres");
 		mntmParamtres.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tabbedPane.setSelectedIndex(5);
+				tabbedPaneMain.setSelectedIndex(5);
 			}
 		});
 		
@@ -199,21 +217,21 @@ public class PrincipaleFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		contentPane.add(tabbedPane, BorderLayout.CENTER);
+		tabbedPaneMain = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPaneMain, BorderLayout.CENTER);
 		
-		panel = new JPanel();
-		tabbedPane.addTab("Acceuil", null, panel, null);
-		panel.setLayout(null);
+		panelAcceuil = new JPanel();
+		tabbedPaneMain.addTab("Acceuil", null, panelAcceuil, null);
+		panelAcceuil.setLayout(null);
 		
-		panel_6 = new JPanel();
-		panel_6.setBounds(10, 11, 232, 316);
-		panel.add(panel_6);
-		panel_6.setLayout(null);
+		panelFrigoAcceuil = new JPanel();
+		panelFrigoAcceuil.setBounds(10, 11, 232, 316);
+		panelAcceuil.add(panelFrigoAcceuil);
+		panelFrigoAcceuil.setLayout(null);
 		
 		btnOuvrirFrigo = new JButton("Ouvrir mon frigo");
 		btnOuvrirFrigo.setBounds(49, 149, 129, 23);
-		panel_6.add(btnOuvrirFrigo);
+		panelFrigoAcceuil.add(btnOuvrirFrigo);
 		
 		listFrigo = new JList();
 		listFrigo.setForeground(Color.BLACK);
@@ -228,7 +246,7 @@ public class PrincipaleFrame extends JFrame {
 			}
 		});
 		listFrigo.setBounds(10, 0, 212, 279);
-		panel_6.add(listFrigo);
+		panelFrigoAcceuil.add(listFrigo);
 		
 		btnFermerFrigo = new JButton("Fermer mon frigo");
 		btnFermerFrigo.addActionListener(new ActionListener() {
@@ -240,7 +258,7 @@ public class PrincipaleFrame extends JFrame {
 		});
 		btnFermerFrigo.setBounds(74, 287, 148, 23);
 		btnFermerFrigo.hide();
-		panel_6.add(btnFermerFrigo);
+		panelFrigoAcceuil.add(btnFermerFrigo);
 		listFrigo.hide();
 		
 		btnOuvrirFrigo.addActionListener(new ActionListener() {
@@ -253,21 +271,21 @@ public class PrincipaleFrame extends JFrame {
 		
 		btnAceuilVoirRecette = new JButton("Voir cette recette");
 		btnAceuilVoirRecette.setBounds(443, 297, 152, 23);
-		panel.add(btnAceuilVoirRecette);
+		panelAcceuil.add(btnAceuilVoirRecette);
 		
 		JPanel panel_14 = new JPanel();
 		panel_14.setBounds(541, 91, 171, -84);
-		panel.add(panel_14);
+		panelAcceuil.add(panel_14);
 		
-		JPanel panel_15 = new JPanel();
-		panel_15.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_15.setBounds(254, 6, 533, 284);
-		panel.add(panel_15);
-		panel_15.setLayout(null);
+		JPanel panelRecetteAcceuil = new JPanel();
+		panelRecetteAcceuil.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelRecetteAcceuil.setBounds(254, 6, 533, 284);
+		panelAcceuil.add(panelRecetteAcceuil);
+		panelRecetteAcceuil.setLayout(null);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(6, 6, 258, 271);
-		panel_15.add(scrollPane);
+		panelRecetteAcceuil.add(scrollPane);
 		
 		listFavoris = new JList();
 		listFavoris.addMouseListener(new MouseAdapter() {
@@ -290,7 +308,7 @@ public class PrincipaleFrame extends JFrame {
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(276, 6, 251, 272);
-		panel_15.add(scrollPane_2);
+		panelRecetteAcceuil.add(scrollPane_2);
 		
 		listHistorique = new JList();
 		listHistorique.setModel(new AbstractListModel() {
@@ -311,81 +329,81 @@ public class PrincipaleFrame extends JFrame {
 		listHistorique.setBorder(new TitledBorder(null, "Historique", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 		scrollPane_2.setViewportView(listHistorique);
 		
-		panel_1 = new JPanel();
-		tabbedPane.addTab("Gestion frigo", null, panel_1, null);
-		panel_1.setLayout(null);
+		panelFrigo = new JPanel();
+		tabbedPaneMain.addTab("Gestion frigo", null, panelFrigo, null);
+		panelFrigo.setLayout(null);
 		
-		panel_7 = new JPanel();
-		panel_7.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Ajouter un aliment", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_7.addMouseListener(new MouseAdapter() {
+		panelAjouterAlimentFrigo = new JPanel();
+		panelAjouterAlimentFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Ajouter un aliment", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelAjouterAlimentFrigo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				enableListeAliment(false);
 				enableAjoutElement(true);
-				panel_1.revalidate();
-				panel_1.repaint();
+				panelFrigo.revalidate();
+				panelFrigo.repaint();
 			}
 		});
 	
 		
 		
-		panel_7.setBounds(12, 11, 279, 156);
-		panel_1.add(panel_7);
-		panel_7.setLayout(null);
+		panelAjouterAlimentFrigo.setBounds(12, 11, 279, 156);
+		panelFrigo.add(panelAjouterAlimentFrigo);
+		panelAjouterAlimentFrigo.setLayout(null);
 		
-		JLabel lblNom = new JLabel("Nom");
-		lblNom.setBounds(36, 35, 33, 14);
-		panel_7.add(lblNom);
+		JLabel lblNomAjouterAliment = new JLabel("Nom");
+		lblNomAjouterAliment.setBounds(36, 35, 33, 14);
+		panelAjouterAlimentFrigo.add(lblNomAjouterAliment);
 		
-		textField = new JTextField();
-		textField.setBounds(79, 32, 120, 20);
-		panel_7.add(textField);
-		textField.setColumns(10);
+		textFieldNomAjouterAliment = new JTextField();
+		textFieldNomAjouterAliment.setBounds(79, 32, 120, 20);
+		panelAjouterAlimentFrigo.add(textFieldNomAjouterAliment);
+		textFieldNomAjouterAliment.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Quantit\u00E9");
-		lblNewLabel.setBounds(15, 71, 54, 14);
-		panel_7.add(lblNewLabel);
+		JLabel lblQuantiteAjouterAliment = new JLabel("Quantit\u00E9");
+		lblQuantiteAjouterAliment.setBounds(15, 71, 54, 14);
+		panelAjouterAlimentFrigo.add(lblQuantiteAjouterAliment);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(78, 68, 66, 20);
-		panel_7.add(textField_1);
-		textField_1.setColumns(10);
+		textFieldQuantiteAjouterAliment = new JTextField();
+		textFieldQuantiteAjouterAliment.setBounds(78, 68, 66, 20);
+		panelAjouterAlimentFrigo.add(textFieldQuantiteAjouterAliment);
+		textFieldQuantiteAjouterAliment.setColumns(10);
 		
-		JLabel lblUnit = new JLabel("Unit\u00E9");
-		lblUnit.setBounds(30, 111, 39, 14);
-		panel_7.add(lblUnit);
+		JLabel lblUniteAjouterAliment = new JLabel("Unit\u00E9");
+		lblUniteAjouterAliment.setBounds(30, 111, 39, 14);
+		panelAjouterAlimentFrigo.add(lblUniteAjouterAliment);
 		
 		listUniteCombo = new JComboBox();
 		listUniteCombo.setModel(new DefaultComboBoxModel(new String[] {"g", "kg", "Pi\u00E8ces"}));
 		listUniteCombo.setBounds(78, 108, 83, 20);
-		panel_7.add(listUniteCombo);
+		panelAjouterAlimentFrigo.add(listUniteCombo);
 		
-		btnNewButton_3 = new JButton("");
-		btnNewButton_3.setIcon(new ImageIcon("./trouver-recherche-zoom-icone-3738-32.png"));
-		btnNewButton_3.setBounds(219, 29, 33, 26);
-		btnNewButton_3.setToolTipText("Rechercher dans la liste des aliments");
+		btnNomAjouterAliment = new JButton("");
+		btnNomAjouterAliment.setIcon(new ImageIcon("./trouver-recherche-zoom-icone-3738-32.png"));
+		btnNomAjouterAliment.setBounds(219, 29, 33, 26);
+		btnNomAjouterAliment.setToolTipText("Rechercher dans la liste des aliments");
 		
-		panel_7.add(btnNewButton_3);
+		panelAjouterAlimentFrigo.add(btnNomAjouterAliment);
 		
-		panel_8 = new JPanel();
-		panel_8.addMouseListener(new MouseAdapter() {
+		panelListeAlimentFrigo = new JPanel();
+		panelListeAlimentFrigo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				enableListeAliment(true);
 				enableAjoutElement(false);
-				panel_1.revalidate();
-				panel_1.repaint();
+				panelFrigo.revalidate();
+				panelFrigo.repaint();
 			}
 		});
-		panel_8.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Liste des aliments", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_8.setBounds(357, 11, 421, 245);
-		panel_1.add(panel_8);
-		panel_8.setLayout(null);
+		panelListeAlimentFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Liste des aliments", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelListeAlimentFrigo.setBounds(357, 11, 421, 245);
+		panelFrigo.add(panelListeAlimentFrigo);
+		panelListeAlimentFrigo.setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setViewportBorder(null);
-		scrollPane_1.setBounds(10, 22, 401, 212);
-		panel_8.add(scrollPane_1);
+		JScrollPane scrollPaneListeAlimentFrigo = new JScrollPane();
+		scrollPaneListeAlimentFrigo.setViewportBorder(null);
+		scrollPaneListeAlimentFrigo.setBounds(10, 22, 401, 212);
+		panelListeAlimentFrigo.add(scrollPaneListeAlimentFrigo);
 		
 		table = new JTable();
 		
@@ -395,241 +413,233 @@ public class PrincipaleFrame extends JFrame {
 				enableListeAliment(true);
 				enableAjoutElement(false);
 				
-				panel_1.revalidate();
-				panel_1.repaint();
+				panelFrigo.revalidate();
+				panelFrigo.repaint();
 				
 			}
 		});
 		
 		
-		scrollPane_1.setViewportView(table);
+		scrollPaneListeAlimentFrigo.setViewportView(table);
 		
 		table.setModel(remplissageTableProduitFrigo());
 		
-		JButton btnNewButton_2 = new JButton("Annuler");
-		btnNewButton_2.setBounds(175, 291, 95, 23);
-		panel_1.add(btnNewButton_2);
+		JButton btnAnnulerFrigo = new JButton("Annuler");
+		btnAnnulerFrigo.setBounds(175, 291, 95, 23);
+		panelFrigo.add(btnAnnulerFrigo);
 		
-		JButton btnEnregistrer = new JButton("Enregistrer");
-		btnEnregistrer.setBounds(366, 291, 143, 23);
-		panel_1.add(btnEnregistrer);
+		JButton btnEnregistrerFrigo = new JButton("Enregistrer");
+		btnEnregistrerFrigo.setBounds(366, 291, 143, 23);
+		panelFrigo.add(btnEnregistrerFrigo);
 		
-		JPanel panel_9 = new JPanel();
-		panel_9.setLayout(null);
-		panel_9.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Derni\u00E8re mise \u00E0 jour", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_9.setBounds(12, 178, 279, 80);
-		panel_1.add(panel_9);
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JPanel panelDerniereMAJFrigo = new JPanel();
+		panelDerniereMAJFrigo.setLayout(null);
+		panelDerniereMAJFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Derni\u00E8re mise \u00E0 jour", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelDerniereMAJFrigo.setBounds(12, 178, 279, 80);
+		panelFrigo.add(panelDerniereMAJFrigo);
+		btnAnnulerFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
-		panel_2 = new JPanel();
-		tabbedPane.addTab("J'ai faim", null, panel_2, null);
-		panel_2.setLayout(null);
+		panelJaiFaim = new JPanel();
+		tabbedPaneMain.addTab("J'ai faim", null, panelJaiFaim, null);
+		panelJaiFaim.setLayout(null);
 		
-		JPanel panel_10 = new JPanel();
-		panel_10.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_10.setBounds(10, 11, 768, 47);
-		panel_2.add(panel_10);
-		panel_10.setLayout(null);
+		JPanel panelBoutonJaiFaim = new JPanel();
+		panelBoutonJaiFaim.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBoutonJaiFaim.setBounds(10, 11, 768, 47);
+		panelJaiFaim.add(panelBoutonJaiFaim);
+		panelBoutonJaiFaim.setLayout(null);
 		
-		JButton btnNewButton_4 = new JButton("Recette rapide");
-		btnNewButton_4.addActionListener(new ActionListener() {
+		JButton btnRecetteRapide = new JButton("Recette rapide");
+		btnRecetteRapide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton_4.setBounds(25, 11, 124, 23);
-		panel_10.add(btnNewButton_4);
+		btnRecetteRapide.setBounds(25, 11, 124, 23);
+		panelBoutonJaiFaim.add(btnRecetteRapide);
 		
-		JButton btnNewButton_5 = new JButton("Recette parmis favoris");
-		btnNewButton_5.setBounds(285, 11, 168, 23);
-		panel_10.add(btnNewButton_5);
+		JButton btnRecetteFavoris = new JButton("Recette parmis favoris");
+		btnRecetteFavoris.setBounds(285, 11, 168, 23);
+		panelBoutonJaiFaim.add(btnRecetteFavoris);
 		
-		JButton btnNewButton_6 = new JButton("Modifier nbr personnes");
-		btnNewButton_6.setBounds(585, 11, 173, 23);
-		panel_10.add(btnNewButton_6);
+		JButton btnModifierNbPersonne = new JButton("Modifier nbr personnes");
+		btnModifierNbPersonne.setBounds(585, 11, 173, 23);
+		panelBoutonJaiFaim.add(btnModifierNbPersonne);
 		
-		JButton btnNewButton_7 = new JButton("Voir la recette");
-		btnNewButton_7.setBounds(515, 162, 139, 23);
-		panel_2.add(btnNewButton_7);
+		JButton btnVoirRecette = new JButton("Voir la recette");
+		btnVoirRecette.setBounds(515, 162, 139, 23);
+		panelJaiFaim.add(btnVoirRecette);
 		
-		JList list_2 = new JList();
-		list_2.setBorder(null);
-		list_2.setBounds(224, 69, 237, 247);
-		panel_2.add(list_2);
+		JList listJaiFaim = new JList();
+		listJaiFaim.setBorder(null);
+		listJaiFaim.setBounds(224, 69, 237, 247);
+		panelJaiFaim.add(listJaiFaim);
 		
-		panel_3 = new JPanel();
-		tabbedPane.addTab("Planning repas", null, panel_3, null);
-		panel_3.setLayout(null);
+		panelPlanning = new JPanel();
+		tabbedPaneMain.addTab("Planning repas", null, panelPlanning, null);
+		panelPlanning.setLayout(null);
 		
-		JPanel panel_16 = new JPanel();
-		panel_16.setBounds(12, 5, 110, 240);
-		panel_3.add(panel_16);
+		JPanel panelPlanning1 = new JPanel();
+		panelPlanning1.setBounds(12, 5, 110, 240);
+		panelPlanning.add(panelPlanning1);
 		
-		JPanel panel_17 = new JPanel();
-		panel_17.setBounds(136, 5, 110, 240);
-		panel_3.add(panel_17);
+		JPanel panelPlanning2 = new JPanel();
+		panelPlanning2.setBounds(136, 5, 110, 240);
+		panelPlanning.add(panelPlanning2);
 		
-		JPanel panel_18 = new JPanel();
-		panel_18.setBounds(258, 5, 110, 240);
-		panel_3.add(panel_18);
+		JPanel panelPlanning3 = new JPanel();
+		panelPlanning3.setBounds(258, 5, 110, 240);
+		panelPlanning.add(panelPlanning3);
 		
-		JPanel panel_19 = new JPanel();
-		panel_19.setBounds(380, 5, 110, 240);
-		panel_3.add(panel_19);
+		JPanel panelPlanning4 = new JPanel();
+		panelPlanning4.setBounds(380, 5, 110, 240);
+		panelPlanning.add(panelPlanning4);
 		
-		JPanel panel_20 = new JPanel();
-		panel_20.setBounds(502, 5, 110, 240);
-		panel_3.add(panel_20);
+		JPanel panelPlanning5 = new JPanel();
+		panelPlanning5.setBounds(502, 5, 110, 240);
+		panelPlanning.add(panelPlanning5);
 		
-		JPanel panel_21 = new JPanel();
-		panel_21.setBounds(624, 5, 110, 240);
-		panel_3.add(panel_21);
+		panelParametres = new JPanel();
+		tabbedPaneMain.addTab("Param\u00E8tres", null, panelParametres, null);
+		panelParametres.setLayout(null);
 		
-		JPanel panel_22 = new JPanel();
-		panel_22.setBounds(747, 5, 110, 240);
-		panel_3.add(panel_22);
+		JPanel panelReglageParametre = new JPanel();
+		panelReglageParametre.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelReglageParametre.setBounds(10, 11, 215, 243);
+		panelParametres.add(panelReglageParametre);
+		panelReglageParametre.setLayout(null);
 		
-		panel_5 = new JPanel();
-		tabbedPane.addTab("Param\u00E8tres", null, panel_5, null);
-		panel_5.setLayout(null);
+		JLabel lblNbPersonneParametre = new JLabel("Nombre de personne");
+		lblNbPersonneParametre.setBounds(10, 21, 125, 14);
+		panelReglageParametre.add(lblNbPersonneParametre);
 		
-		JPanel panel_12 = new JPanel();
-		panel_12.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_12.setBounds(10, 11, 215, 243);
-		panel_5.add(panel_12);
-		panel_12.setLayout(null);
+		textFieldNbPersonneParametre = new JTextField();
+		textFieldNbPersonneParametre.setBounds(147, 18, 42, 20);
+		textFieldNbPersonneParametre.setText("1");
+		panelReglageParametre.add(textFieldNbPersonneParametre);
+		textFieldNbPersonneParametre.setColumns(10);
 		
-		JLabel lblNombreDePersonne = new JLabel("Nombre de personne");
-		lblNombreDePersonne.setBounds(10, 21, 125, 14);
-		panel_12.add(lblNombreDePersonne);
+		comboBoxCouleurParametre = new JComboBox();
+		comboBoxCouleurParametre.setModel(new DefaultComboBoxModel(new String[] {"Default", "Bleu", "Jaune", "Vert"}));
+		comboBoxCouleurParametre.setBounds(117, 73, 92, 26);
+		panelReglageParametre.add(comboBoxCouleurParametre);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(147, 18, 42, 20);
-		textField_5.setText("1");
-		panel_12.add(textField_5);
-		textField_5.setColumns(10);
+		JLabel lblCouleurInterfaceParametre = new JLabel("Couleur Interface");
+		lblCouleurInterfaceParametre.setBounds(10, 78, 109, 16);
+		panelReglageParametre.add(lblCouleurInterfaceParametre);
 		
-		comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Default", "Bleu", "Jaune", "Vert"}));
-		comboBox_1.setBounds(117, 73, 92, 26);
-		panel_12.add(comboBox_1);
+		JButton btnEnregistrerParametre = new JButton("Enregistrer");
+		btnEnregistrerParametre.setBounds(31, 170, 158, 23);
+		panelReglageParametre.add(btnEnregistrerParametre);
 		
-		JLabel lblCouleurInterface = new JLabel("Couleur Interface");
-		lblCouleurInterface.setBounds(10, 78, 109, 16);
-		panel_12.add(lblCouleurInterface);
-		
-		JButton btnNewButton_10 = new JButton("Enregistrer");
-		btnNewButton_10.setBounds(31, 170, 158, 23);
-		panel_12.add(btnNewButton_10);
-		
-		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(67, 200, 90, 20);
-		panel_12.add(btnAnnuler);
-		btnNewButton_10.addActionListener(new ActionListener() {
+		JButton btnAnnulerParametre = new JButton("Annuler");
+		btnAnnulerParametre.setBounds(67, 200, 90, 20);
+		panelReglageParametre.add(btnAnnulerParametre);
+		btnEnregistrerParametre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
 		JButton btnGestionRecettesFavoris = new JButton("Gestion recettes favoris");
 		btnGestionRecettesFavoris.setBounds(246, 21, 166, 23);
-		panel_5.add(btnGestionRecettesFavoris);
+		panelParametres.add(btnGestionRecettesFavoris);
 		
-		JButton btnNewButton_9 = new JButton("Historique de recettes");
-		btnNewButton_9.addActionListener(new ActionListener() {
+		JButton btnHistoriqueRecette = new JButton("Historique de recettes");
+		btnHistoriqueRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton_9.setBounds(246, 134, 166, 23);
-		panel_5.add(btnNewButton_9);
+		btnHistoriqueRecette.setBounds(246, 134, 166, 23);
+		panelParametres.add(btnHistoriqueRecette);
 		
 		JPanel panel_13 = new JPanel();
 		panel_13.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_13.setBounds(450, 11, 328, 243);
-		panel_5.add(panel_13);
+		panelParametres.add(panel_13);
 		panel_13.setLayout(null);
 		
-		JList list_4 = new JList();
-		list_4.setBounds(21, 11, 285, 184);
-		panel_13.add(list_4);
+		JList listFavorisParametre = new JList();
+		listFavorisParametre.setBounds(21, 11, 285, 184);
+		panel_13.add(listFavorisParametre);
 		
-		JButton btnNewButton_11 = new JButton("Supprimer");
-		btnNewButton_11.setBounds(60, 206, 89, 23);
-		panel_13.add(btnNewButton_11);
+		JButton btnSupprimerFavoris = new JButton("Supprimer");
+		btnSupprimerFavoris.setBounds(60, 206, 89, 23);
+		panel_13.add(btnSupprimerFavoris);
 		
-		JButton btnNewButton_12 = new JButton("Visualiser");
-		btnNewButton_12.setBounds(198, 206, 89, 23);
-		panel_13.add(btnNewButton_12);
+		JButton btnVisualiserFavoris = new JButton("Visualiser");
+		btnVisualiserFavoris.setBounds(198, 206, 89, 23);
+		panel_13.add(btnVisualiserFavoris);
 		
-		JButton btnEffacerMonHistorique = new JButton("Effacer mon historique");
-		btnEffacerMonHistorique.setBounds(249, 226, 163, 28);
-		panel_5.add(btnEffacerMonHistorique);
-		btnNewButton_12.addActionListener(new ActionListener() {
+		JButton btnEffacerHistorique = new JButton("Effacer mon historique");
+		btnEffacerHistorique.setBounds(249, 226, 163, 28);
+		panelParametres.add(btnEffacerHistorique);
+		btnVisualiserFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
-		panel_4 = new JPanel();
-		tabbedPane.addTab("Rechercher recette", null, panel_4, null);
-		panel_4.setLayout(null);
+		panelRecherche = new JPanel();
+		tabbedPaneMain.addTab("Rechercher recette", null, panelRecherche, null);
+		panelRecherche.setLayout(null);
 		
-		JPanel panel_11 = new JPanel();
-		panel_11.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_11.setBounds(10, 11, 315, 305);
-		panel_4.add(panel_11);
-		panel_11.setLayout(null);
+		JPanel panelParametreRecherche = new JPanel();
+		panelParametreRecherche.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelParametreRecherche.setBounds(10, 11, 315, 305);
+		panelRecherche.add(panelParametreRecherche);
+		panelParametreRecherche.setLayout(null);
 		
-		JLabel lblMotCl = new JLabel("Mot cl\u00E9");
-		lblMotCl.setBounds(41, 40, 46, 14);
-		panel_11.add(lblMotCl);
+		JLabel lblMotCleRecherche = new JLabel("Mot cl\u00E9");
+		lblMotCleRecherche.setBounds(41, 40, 46, 14);
+		panelParametreRecherche.add(lblMotCleRecherche);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(113, 37, 166, 20);
-		panel_11.add(textField_2);
-		textField_2.setColumns(10);
+		textFieldMotCleRecherche = new JTextField();
+		textFieldMotCleRecherche.setBounds(113, 37, 166, 20);
+		panelParametreRecherche.add(textFieldMotCleRecherche);
+		textFieldMotCleRecherche.setColumns(10);
 		
 		JLabel lblDureTotal = new JLabel("Dur\u00E9e total entre");
 		lblDureTotal.setBounds(10, 93, 102, 14);
-		panel_11.add(lblDureTotal);
+		panelParametreRecherche.add(lblDureTotal);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(113, 90, 36, 20);
-		panel_11.add(textField_3);
+		textFieldDureeMinRecherche = new JTextField();
+		textFieldDureeMinRecherche.setColumns(10);
+		textFieldDureeMinRecherche.setBounds(113, 90, 36, 20);
+		panelParametreRecherche.add(textFieldDureeMinRecherche);
 		
-		JLabel lblEt = new JLabel("et");
-		lblEt.setBounds(161, 93, 27, 14);
-		panel_11.add(lblEt);
+		JLabel lblEtRecherche = new JLabel("et");
+		lblEtRecherche.setBounds(161, 93, 27, 14);
+		panelParametreRecherche.add(lblEtRecherche);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(201, 90, 36, 20);
-		panel_11.add(textField_4);
+		textFieldDureeMaxRecherche = new JTextField();
+		textFieldDureeMaxRecherche.setColumns(10);
+		textFieldDureeMaxRecherche.setBounds(201, 90, 36, 20);
+		panelParametreRecherche.add(textFieldDureeMaxRecherche);
 		
-		JLabel lblMin = new JLabel("min");
-		lblMin.setBounds(247, 93, 46, 14);
-		panel_11.add(lblMin);
+		JLabel lblMinRecette = new JLabel("min");
+		lblMinRecette.setBounds(247, 93, 46, 14);
+		panelParametreRecherche.add(lblMinRecette);
 		
-		JLabel lblIngrdient = new JLabel("Ingr\u00E9dient");
-		lblIngrdient.setBounds(29, 151, 58, 14);
-		panel_11.add(lblIngrdient);
+		JLabel lblIngredientRecherche = new JLabel("Ingr\u00E9dient");
+		lblIngredientRecherche.setBounds(29, 151, 58, 14);
+		panelParametreRecherche.add(lblIngredientRecherche);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(113, 151, 180, 70);
-		panel_11.add(textArea);
+		JTextArea textAreaRechercheRecette = new JTextArea();
+		textAreaRechercheRecette.setBounds(113, 151, 180, 70);
+		panelParametreRecherche.add(textAreaRechercheRecette);
 		
-		JButton btnNewButton_8 = new JButton("Rechercher");
-		btnNewButton_8.setBounds(191, 250, 102, 23);
-		panel_11.add(btnNewButton_8);
+		JButton btnRechercher = new JButton("Rechercher");
+		btnRechercher.setBounds(191, 250, 102, 23);
+		panelParametreRecherche.add(btnRechercher);
 		
-		JList list_3 = new JList();
-		list_3.setBounds(386, 11, 250, 305);
-		panel_4.add(list_3);
+		JList listRecetteRecherche = new JList();
+		listRecetteRecherche.setBounds(386, 11, 250, 305);
+		panelRecherche.add(listRecetteRecherche);
 		
-		JButton btnVoirLaRecette = new JButton("Voir la recette");
-		btnVoirLaRecette.setBounds(646, 149, 116, 23);
-		panel_4.add(btnVoirLaRecette);
+		JButton btnVoirRecetteRecherche = new JButton("Voir la recette");
+		btnVoirRecetteRecherche.setBounds(646, 149, 116, 23);
+		panelRecherche.add(btnVoirRecetteRecherche);
 		
 		enableAjoutElement(false);
 		
@@ -641,10 +651,10 @@ public class PrincipaleFrame extends JFrame {
 
         Vector<String> titre = new Vector<String>();
         titre.add("Nom");
-        titre.add("Quantit� ");
-        titre.add("Unit�");
-        titre.add("Supprimer (quantit�)");
-        titre.add("Ajouter (quantit�)");
+        titre.add("Quantité ");
+        titre.add("Unité");
+        titre.add("Supprimer (quantité)");
+        titre.add("Ajouter (quantité)");
         
         Vector<Object> matrice = new Vector<Object>();
         for(int i = 0; i < 10; i++){
@@ -671,16 +681,16 @@ public class PrincipaleFrame extends JFrame {
 	
 	
 	public void enableAjoutElement(boolean value){
-		panel_7.enable(value);
-		textField.enable(value);
-		textField_1.enable(value);
+		panelAjouterAlimentFrigo.enable(value);
+		textFieldNomAjouterAliment.enable(value);
+		textFieldQuantiteAjouterAliment.enable(value);
 		listUniteCombo.enable(value);
 		table.setEnabled(value);
 	}
 	
 	
 	public void enableListeAliment(boolean value){
-		panel_8.enable(value);
+		panelListeAlimentFrigo.enable(value);
 		scrollPane.enable(value);
 		table.setEnabled(value);	
 		
