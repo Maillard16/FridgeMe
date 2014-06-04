@@ -62,7 +62,7 @@ public class PrincipaleFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
+	private JTable tableAlimentFrigo;
 	private JTextField textFieldNomAjouterAliment;
 	private JTextField textFieldQuantiteAjouterAliment;
 	private JPanel panelAcceuil ;
@@ -90,6 +90,8 @@ public class PrincipaleFrame extends JFrame {
 	private JList listFavoris;
 	private JMenu mnFichier;
 	private JComboBox comboBoxCouleurParametre;
+	
+	private JScrollPane scrollPaneListeAlimentFrigo;
 	
 	
 //	private LinkedList<Aliment> aliments;
@@ -402,14 +404,14 @@ public class PrincipaleFrame extends JFrame {
 		panelFrigo.add(panelListeAlimentFrigo);
 		panelListeAlimentFrigo.setLayout(null);
 		
-		JScrollPane scrollPaneListeAlimentFrigo = new JScrollPane();
+		scrollPaneListeAlimentFrigo = new JScrollPane();
 		scrollPaneListeAlimentFrigo.setViewportBorder(null);
 		scrollPaneListeAlimentFrigo.setBounds(10, 22, 401, 212);
 		panelListeAlimentFrigo.add(scrollPaneListeAlimentFrigo);
 		
-		table = new JTable();
+		tableAlimentFrigo = new JTable();
 		
-		table.addMouseListener(new MouseAdapter() {
+		tableAlimentFrigo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				enableListeAliment(true);
@@ -422,9 +424,9 @@ public class PrincipaleFrame extends JFrame {
 		});
 		
 		
-		scrollPaneListeAlimentFrigo.setViewportView(table);
+		scrollPaneListeAlimentFrigo.setViewportView(tableAlimentFrigo);
 		
-		table.setModel(remplissageTableProduitFrigo());
+		tableAlimentFrigo.setModel(remplissageTableProduitFrigo());
 		
 		JButton btnAnnulerFrigo = new JButton("Annuler");
 		btnAnnulerFrigo.setBounds(175, 291, 95, 23);
@@ -650,7 +652,6 @@ public class PrincipaleFrame extends JFrame {
 	}
 	
 	public DefaultTableModel remplissageTableProduitFrigo() {
-
         Vector<String> titre = new Vector<String>();
         titre.add("Nom");
         titre.add("Quantité ");
@@ -687,14 +688,13 @@ public class PrincipaleFrame extends JFrame {
 		textFieldNomAjouterAliment.enable(value);
 		textFieldQuantiteAjouterAliment.enable(value);
 		comboBoxUniteAjoutAliment.enable(value);
-		table.setEnabled(value);
 	}
 	
 	
 	public void enableListeAliment(boolean value){
 		panelListeAlimentFrigo.enable(value);
-		scrollPane.enable(value);
-		table.setEnabled(value);	
+		scrollPaneListeAlimentFrigo.enable(value);
+		tableAlimentFrigo.setEnabled(value);	
 		
 	}
 }
