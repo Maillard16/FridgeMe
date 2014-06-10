@@ -36,7 +36,7 @@ public class AlimentDao extends Dao<Aliment> {
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM aliment WHERE id_aliment = " + id);
 	      rs = s.executeQuery();
-	      if(rs.first())
+	      if(rs.next())
 	        return new Aliment(
 	          id,
 	          rs.getString("nom"),
@@ -50,12 +50,12 @@ public class AlimentDao extends Dao<Aliment> {
 		return null;
 	}
 	
-	public Vector<Aliment> findByNom(String nom) {
+	public Vector<Aliment> findByNomIncomplet(String nom) {
 		PreparedStatement s;
 		ResultSet rs;
 		Vector<Aliment> listAliment = new Vector<Aliment>();
 	    try {
-	      s = connect.prepareStatement("SELECT * FROM aliment WHERE nom LIKE " + nom);
+	      s = connect.prepareStatement("SELECT * FROM aliment WHERE nom LIKE '%" + nom + "%';");
 	      rs = s.executeQuery();
 	      while(rs.next()) {
 	    	  Aliment a = new Aliment(
@@ -71,7 +71,31 @@ public class AlimentDao extends Dao<Aliment> {
 	    } catch (SQLException e) {
 	      e.printStackTrace();
 	    }
-		return null;
+		return listAliment;
+	}
+	
+	public Vector<Aliment> findByNomExact(String nom) {
+		PreparedStatement s;
+		ResultSet rs;
+		Vector<Aliment> listAliment = new Vector<Aliment>();
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM aliment WHERE nom = '" + nom + "';");
+	      rs = s.executeQuery();
+	      while(rs.next()) {
+	    	  Aliment a = new Aliment(
+	          rs.getInt("id_aliment"),
+	          rs.getString("nom"),
+	          rs.getInt("quantite"),
+	          rs.getInt("id_sous_categorie"),
+	          rs.getInt("id_unite")
+	          );    
+	    	  
+	    	  listAliment.add(a);
+	      }
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+		return listAliment;
 	}
 
 	@Override
@@ -82,6 +106,47 @@ public class AlimentDao extends Dao<Aliment> {
 	      
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM aliment");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new Aliment(
+	    	          rs.getInt("id_aliment"),
+	    	          rs.getString("nom"),
+	    	          rs.getInt("quantite"),
+	    	          rs.getInt("id_sous_categorie"),
+	    	          rs.getInt("id_unite")
+	    	          ));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
+	}
+
+	public boolean updateQuantite(Aliment a) {
+		PreparedStatement s;
+	    int row = 0;
+	    
+	    try {
+	      s = connect.prepareStatement("UPDATE aliment SET quantite = " + a.getQuantite()+ " WHERE id_aliment = " + a.getIdAliment() + ";");
+	      row = s.executeUpdate();   
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    
+	    if (row == 1) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	}
+
+	public Vector<Aliment> getListFrigo() {
+		Vector<Aliment> list = new Vector<Aliment>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM aliment WHERE quantite > 0;");
 	      rs = s.executeQuery();
 	      while(rs.next())
 	    	  

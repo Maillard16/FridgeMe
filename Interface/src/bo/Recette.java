@@ -1,5 +1,9 @@
 package bo;
 
+import java.util.Vector;
+
+import ctrl.AlimentCtrl;
+
 public class Recette {
 	private int idRecette;
 	private String nom;
@@ -11,6 +15,8 @@ public class Recette {
 	private int nombrePersonne;
 	private boolean nombrePersonneFlexible;
 	private int idTypeRecette;
+	
+	private Vector<Aliment> alimentsRecette;
 	
 	public Recette(){
 		super();
@@ -125,8 +131,11 @@ public class Recette {
 	}
 	
 	
+	public void setAlimentsRecette(Vector<Aliment> recetteAliments) {
+		this.alimentsRecette = recetteAliments;
+	}
 	
-
-	
-	
+	public Vector<Aliment> getAlimentsRecette() {
+		return alimentsRecette;
+	}
 }

@@ -32,12 +32,12 @@ public class UniteDao extends Dao<Unite> {
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM unite WHERE id_unite = " + id);
 	      rs = s.executeQuery();
-	      if(rs.first())
+	      if(rs.next())
 	        return new Unite(
 	          id,
 	          rs.getString("abreviation"),
-	          rs.getString("nom"
-	        ));         
+	          rs.getString("nom")
+	        );         
 	    } catch (SQLException e) {
 	      e.printStackTrace();
 	    }

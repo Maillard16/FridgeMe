@@ -3,6 +3,8 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import javax.swing.JOptionPane;
+
 public class SqlConnexion {
 	private static SqlConnexion instance = null;
 	private static Connection connect;
@@ -12,7 +14,10 @@ public class SqlConnexion {
 			Class.forName("org.sqlite.JDBC");
 			connect = DriverManager.getConnection("jdbc:sqlite:database/FridgeMe.db");
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Echec de la connexion à la base de données");
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
 		}
 	}
 

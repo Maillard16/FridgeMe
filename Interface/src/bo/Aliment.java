@@ -12,6 +12,7 @@ public class Aliment {
 	private int idSousCat;
 	private int idUnite;
 	
+	private int priorite;
 	
 	
 	public Aliment() {
@@ -69,6 +70,14 @@ public class Aliment {
 		this.idUnite = idUnite;
 	}
 
+	public int getPriorite() {
+		return priorite;
+	}
+	
+	public void setPriorite(int priorite) {
+		this.priorite = priorite;
+	}
+	
 	@Override
 	public String toString() {
 		return "Aliment [idAliment=" + idAliment + ", nom=" + nom
