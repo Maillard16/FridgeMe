@@ -272,7 +272,15 @@ public class PrincipaleFrame extends JFrame {
 		
 		btnAceuilVoirRecette = new JButton("Voir cette recette");
 		btnAceuilVoirRecette.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
+//				if(listFavoris.getSelectedIndex() != -1) {
+//					RecetteFrame fr = new RecetteFrame();
+//					fr.show();
+//					
+//				} else if( listHistorique.getSelectedIndex() != -1) {
+//					RecetteFrame fr = new RecetteFrame();
+//					fr.show();
+//				}
 			}
 		});
 		btnAceuilVoirRecette.setBounds(443, 297, 152, 23);
