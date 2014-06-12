@@ -279,6 +279,18 @@ public class PrincipaleFrame extends JFrame {
 		});
 		
 		btnAceuilVoirRecette = new JButton("Voir cette recette");
+		btnAceuilVoirRecette.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(listFavoris.getSelectedIndex() != -1) {
+					RecetteFrame fr = new RecetteFrame();
+					fr.show();
+					
+				} else if( listHistorique.getSelectedIndex() != -1) {
+					RecetteFrame fr = new RecetteFrame();
+					fr.show();
+				}
+			}
+		});
 		btnAceuilVoirRecette.setBounds(443, 297, 152, 23);
 		panelAcceuil.add(btnAceuilVoirRecette);
 		
@@ -505,7 +517,7 @@ public class PrincipaleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Recette r = new Recette();
 				r.setNom("Caviar");
-				FenetreRecette fr = new FenetreRecette(r);
+				RecetteFrame fr = new RecetteFrame();
 			}
 		});
 		btnVoirRecette.setBounds(515, 162, 139, 23);
