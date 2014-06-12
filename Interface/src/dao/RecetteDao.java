@@ -36,7 +36,7 @@ public class RecetteDao extends Dao<Recette> {
 	    try {
 	      pst = connect.prepareStatement("SELECT * FROM recette WHERE id_recette = " + id);
 	      rs = pst.executeQuery();
-	      if(rs.first())
+	      if(rs.next())
 	        return new Recette(
 	          id,
 	          rs.getString("nom"),
@@ -63,6 +63,67 @@ public class RecetteDao extends Dao<Recette> {
 	      
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM recette");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new Recette(
+	    	          rs.getInt("id_recette"),
+	    	          rs.getString("nom"),
+	    	          rs.getString("description"),
+	    	          rs.getInt("temps_cuisson"),
+	    	          rs.getInt("temps_preparation"),
+	    	          rs.getBoolean("favoris"),
+	    	          rs.getString("image"),
+	    	          rs.getInt("nombre_personne"),
+	    	          rs.getBoolean("nb_personne_flexible"),
+	    	          rs.getInt("id_type_recette")
+	    	        ));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
+	}
+
+	public int findIdByName(String chaine) {
+		PreparedStatement pst;
+		ResultSet rs;
+		
+		// On formate la chaîne si il y a des '
+		
+		chaine = format(chaine);
+	      
+	    try {
+	      pst = connect.prepareStatement("SELECT * FROM recette WHERE nom = '" + chaine + "';");
+	      rs = pst.executeQuery();
+	      if(rs.next()) {
+	        return rs.getInt("id_recette");
+	                
+	      	}
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+		return 0;
+	}
+	
+	private String format(String chaine) {
+		String chaineFormatee = new String();
+		for (int i = 0; i < chaine.length(); i++) {
+			if (chaine.charAt(i) == '\'') {
+				chaineFormatee += "\'";
+			}
+			chaineFormatee += chaine.charAt(i);
+		}
+		return chaineFormatee;
+		
+	}
+
+	public Vector<Recette> getListAllFavoris() {
+		Vector<Recette> list = new Vector<Recette>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM recette WHERE favoris = 1");
 	      rs = s.executeQuery();
 	      while(rs.next())
 	    	  

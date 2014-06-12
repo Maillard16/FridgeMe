@@ -49,7 +49,7 @@ public class SousCategorieDao extends Dao<SousCategorie> {
 	    try {
 	      pst = connect.prepareStatement("SELECT * FROM sous_categorie WHERE id_sous_categorie = " + id);
 	      rs = pst.executeQuery();
-	      if(rs.first())
+	      if(rs.next())
 	        return new SousCategorie(
 	          id,
 	          rs.getString("nom"),

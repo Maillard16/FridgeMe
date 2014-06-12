@@ -37,7 +37,7 @@ public class TypeRecetteDao extends Dao<TypeRecette> {
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM type_recette WHERE id_type_recette = " + id);
 	      rs = s.executeQuery();
-	      if(rs.first())
+	      if(rs.next())
 	        return new TypeRecette(
 	          id,
 	          rs.getString("nom")

@@ -42,7 +42,7 @@ public class RecetteAlimentDao extends Dao<RecetteAliment> {
 			pst = connect.prepareStatement("SELECT * FROM recette_aliment WHERE id_recette = "+
 						idRecette +" AND id_aliment = "+ idAliment);
 			rs = pst.executeQuery();
-			if(rs.first()){
+			if(rs.next()){
 				return new RecetteAliment(
 						idAliment,
 						idRecette,
@@ -67,15 +67,15 @@ public class RecetteAlimentDao extends Dao<RecetteAliment> {
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM recette_aliment");
 	      rs = s.executeQuery();
-	      while(rs.next())
-	    	  
+	      while(rs.next()) {
 	    	  list.add(new RecetteAliment(
-	    			  	rs.getInt("id_recette"),
 	    			  	rs.getInt("id_aliment"),
+	    			  	rs.getInt("id_recette"),
 						rs.getInt("quantite"),
 						rs.getInt("priorite"),
 						rs.getString("nom_complet")
-						));         
+						));
+	      }
 	    } catch (SQLException e) {
 	      e.printStackTrace();
 	    }

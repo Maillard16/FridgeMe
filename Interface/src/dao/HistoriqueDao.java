@@ -61,7 +61,7 @@ public class HistoriqueDao extends Dao<Historique> {
 			pst = connect.prepareStatement("SELECT * FROM historique WHERE date_heure ="+ dateHeure);
 			rs = pst.executeQuery();
 			
-			if(rs.first()){
+			if(rs.next()){
 				return new Historique(
 						dateHeure,
 						rs.getInt("id_recette")

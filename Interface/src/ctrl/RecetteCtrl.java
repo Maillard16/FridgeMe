@@ -65,13 +65,14 @@ public class RecetteCtrl {
 			score = score / (prioriteMax * (prioriteMax + 1) / 2);
 		}
 		
+		//System.out.println(r.getNom() + " " + score);
+		
 		return score;
 	}
 
 	public static void setAlimentsRecette(Recette recette) {
 		Vector<Aliment> alimentsRecette = new Vector<Aliment>();
 		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItems();
-		
 		for (RecetteAliment rA : recetteAliments) {
 			if (rA.getIdRecette() == recette.getIdRecette()) {
 				Aliment aliment = AlimentCtrl.getAlimentbyId(rA.getIdAliment());
@@ -82,5 +83,24 @@ public class RecetteCtrl {
 		}
 		
 		recette.setAlimentsRecette(alimentsRecette);
+	}
+
+	public static int getRecetteIdByName(String recetteName) {
+		int idRecette = recetteDao.findIdByName(recetteName);
+		return idRecette;
+	}
+
+	public static String[] getRecettesFavorisNames() {
+		Vector<Recette> recettes = recetteDao.getListAllFavoris();
+		String[] valeurs = new String[recettes.size()];
+		int i = 0;
+		for (Recette r : recettes) {
+			valeurs[i++] = r.getNom();
+		}
+		return valeurs;
+	}
+
+	public static Recette getRecetteById(int idRecette) {
+		return recetteDao.find(idRecette);
 	}
 }

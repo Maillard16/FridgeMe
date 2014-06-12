@@ -36,7 +36,7 @@ public class RepasDao extends Dao<Repas> {
 	    try {
 	      s = connect.prepareStatement("SELECT * FROM repas WHERE id_repas = " + id);
 	      rs = s.executeQuery();
-	      if(rs.first())
+	      if(rs.next())
 	        return new Repas(
 	          id,
 	          rs.getInt("jour"),

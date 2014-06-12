@@ -35,7 +35,7 @@ public class CategorieDao extends Dao<Categorie> {
 					.prepareStatement("SELECT * FROM categorie WHERE id_categorie = "
 							+ id);
 			rs = s.executeQuery();
-			if (rs.first())
+			if (rs.next())
 				return new Categorie(id, rs.getString("nom"));
 		} catch (SQLException e) {
 			e.printStackTrace();

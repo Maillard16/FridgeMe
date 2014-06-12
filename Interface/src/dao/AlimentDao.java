@@ -51,6 +51,7 @@ public class AlimentDao extends Dao<Aliment> {
 	}
 	
 	public Vector<Aliment> findByNomIncomplet(String nom) {
+		nom = format(nom);
 		PreparedStatement s;
 		ResultSet rs;
 		Vector<Aliment> listAliment = new Vector<Aliment>();
@@ -75,6 +76,7 @@ public class AlimentDao extends Dao<Aliment> {
 	}
 	
 	public Vector<Aliment> findByNomExact(String nom) {
+		nom = format(nom);
 		PreparedStatement s;
 		ResultSet rs;
 		Vector<Aliment> listAliment = new Vector<Aliment>();
@@ -161,6 +163,40 @@ public class AlimentDao extends Dao<Aliment> {
 	      e.printStackTrace();
 	    }
 	    return list;
+	}
+
+	public Aliment getAlimentbyName(String nom) {
+		nom = format(nom);
+		PreparedStatement s;
+		ResultSet rs;
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM aliment WHERE nom = '" + nom + "';");
+	      rs = s.executeQuery();
+	      while(rs.next()) {
+	    	  return new Aliment(
+	          rs.getInt("id_aliment"),
+	          rs.getString("nom"),
+	          rs.getInt("quantite"),
+	          rs.getInt("id_sous_categorie"),
+	          rs.getInt("id_unite")
+	          );
+	      }
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+		return null;
+	}
+	
+	private String format(String chaine) {
+		String chaineFormatee = new String();
+		for (int i = 0; i < chaine.length(); i++) {
+			if (chaine.charAt(i) == '\'') {
+				chaineFormatee += "\'";
+			}
+			chaineFormatee += chaine.charAt(i);
+		}
+		return chaineFormatee;
+		
 	}
 
 }

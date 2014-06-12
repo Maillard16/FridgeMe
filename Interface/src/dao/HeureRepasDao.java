@@ -39,7 +39,7 @@ public class HeureRepasDao extends Dao<HeureRepas> {
 							+ id);
 			rs = pst.executeQuery();
 
-			if (rs.first()) {
+			if (rs.next()) {
 				return new HeureRepas(id, rs.getString("nom"));
 			}
 

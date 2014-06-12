@@ -9,7 +9,7 @@ public class AlimentCtrl {
 	static private AlimentDao alimentDao = new AlimentDao();
 	static private UniteDao uniteDao = new UniteDao();
 	
-	public static void ajouterAliment(String nomAliment, int quantite, String unite) {
+	public static void ajouterAliment(String nomAliment, int quantite) {
 		Vector<Aliment> aliments = alimentDao.findByNomExact(nomAliment);
 		Aliment aliment = aliments.firstElement();
 		aliment.setQuantite(aliment.getQuantite() + quantite);
@@ -51,5 +51,29 @@ public class AlimentCtrl {
 
 	public static Aliment getAlimentbyId(int idAliment) {
 		return alimentDao.find(idAliment);
+	}
+
+	public static Aliment getAlimentbyName(String text) {
+		return alimentDao.getAlimentbyName(text);
+	}
+
+	public static String[] getAlimentsNames(String nomAliment) {
+		Vector<Aliment> aliments = alimentDao.findByNomIncomplet(nomAliment);
+		String[] nomAliments = new String[aliments.size()];
+		int i = 0;
+		for (Aliment a : aliments) {
+			nomAliments[i++] = a.getNom();
+		}
+		return nomAliments;
+	}
+
+	public static String[] getAlimentsNamesFrigo() {
+		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
+		String[] nomAliments = new String[aliments.size()];
+		int i = 0;
+		for (Aliment a : aliments) {
+			nomAliments[i++] = a.getNom();
+		}
+		return nomAliments;
 	}
 }
