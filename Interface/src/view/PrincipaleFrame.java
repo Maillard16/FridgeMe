@@ -87,13 +87,11 @@ public class PrincipaleFrame extends JFrame {
 	private JPanel panelAjouterAlimentFrigo;
 	private JPanel panelListeAlimentFrigo;
 	private JScrollPane scrollPaneFavorisAcceuil;
-	private JTextField textFieldMotCleRecherche;
-	private JTextField textFieldDureeMinRecherche;
-	private JTextField textFieldDureeMaxRecherche;
+	private JTextField textFieldNomRecherche;
 	private JTextField textFieldNbPersonneParametre;
 	private JButton btnFermerFrigo;
-	private JList listHistorique;
-	private JList listFavoris;
+	private JList<String> listHistorique;
+	private JList<String> listFavoris;
 	private JMenu mnFichier;
 	private JComboBox comboBoxCouleurParametre;
 	
@@ -105,8 +103,8 @@ public class PrincipaleFrame extends JFrame {
 	private JLabel lblUniteSelectionAlimentFrigo;
 	private JComboBox comboBoxAjoutAlimentFrigo;
 	
-	private JList listFavorisParametre;
-	private JTextField textFieldIngredientRecherche;
+	private JList<String> listFavorisParametre;
+	private JList<String> listRecetteRecherche;	
 	
 	private JScrollPane scrollPaneFrigoAcceuil;
 	
@@ -239,7 +237,7 @@ public class PrincipaleFrame extends JFrame {
 		panelFrigoAcceuil.setLayout(null);
 		
 		btnOuvrirFrigo = new JButton("Ouvrir mon frigo");
-		btnOuvrirFrigo.setBounds(49, 183, 129, 23);
+		btnOuvrirFrigo.setBounds(49, 180, 129, 42);
 		panelFrigoAcceuil.add(btnOuvrirFrigo);
 		
 		listFrigo = new JList();
@@ -528,7 +526,7 @@ public class PrincipaleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String recette = listJaiFaim.getSelectedValue();
 				if (recette != null) {
-					RecetteCtrl.AfficherRecetteByName(listJaiFaim.getSelectedValue());
+					RecetteCtrl.AfficherRecetteByName(recette);
 				}
 			}
 		});
@@ -627,7 +625,7 @@ public class PrincipaleFrame extends JFrame {
 		btnGestionRecettesFavoris.setBounds(279, 28, 205, 28);
 		panelParametres.add(btnGestionRecettesFavoris);
 		
-		JButton btnHistoriqueRecette = new JButton("Historique de recettes");
+		JButton btnHistoriqueRecette = new JButton("Gestion historique");
 		btnHistoriqueRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -643,12 +641,12 @@ public class PrincipaleFrame extends JFrame {
 		
 		listFavorisParametre = new JList();
 		
-		JButton btnSupprimerFavoris = new JButton("Supprimer");
-		btnSupprimerFavoris.setBounds(85, 447, 114, 23);
+		JButton btnSupprimerFavoris = new JButton("Supprimer la recette");
+		btnSupprimerFavoris.setBounds(41, 447, 144, 23);
 		panelFavorisParametre.add(btnSupprimerFavoris);
 		
-		JButton btnVisualiserFavoris = new JButton("Visualiser");
-		btnVisualiserFavoris.setBounds(225, 447, 114, 23);
+		JButton btnVisualiserFavoris = new JButton("Voir la recette");
+		btnVisualiserFavoris.setBounds(218, 447, 150, 23);
 		panelFavorisParametre.add(btnVisualiserFavoris);
 		
 		JScrollPane scrollPaneFavorisParametre = new JScrollPane();
@@ -676,51 +674,44 @@ public class PrincipaleFrame extends JFrame {
 		panelRecherche.add(panelParametreRecherche);
 		panelParametreRecherche.setLayout(null);
 		
-		JLabel lblMotCleRecherche = new JLabel("Mot cl\u00E9");
-		lblMotCleRecherche.setBounds(41, 40, 46, 14);
-		panelParametreRecherche.add(lblMotCleRecherche);
+		JLabel lblNomRecherche = new JLabel("Mot cl\u00E9");
+		lblNomRecherche.setBounds(41, 40, 46, 14);
+		panelParametreRecherche.add(lblNomRecherche);
 		
-		textFieldMotCleRecherche = new JTextField();
-		textFieldMotCleRecherche.setBounds(113, 37, 166, 20);
-		panelParametreRecherche.add(textFieldMotCleRecherche);
-		textFieldMotCleRecherche.setColumns(10);
+		textFieldNomRecherche = new JTextField();
+		textFieldNomRecherche.setBounds(113, 37, 166, 20);
+		panelParametreRecherche.add(textFieldNomRecherche);
+		textFieldNomRecherche.setColumns(10);
 		
-		JLabel lblDureTotal = new JLabel("Dur\u00E9e total entre");
-		lblDureTotal.setBounds(10, 93, 102, 14);
-		panelParametreRecherche.add(lblDureTotal);
-		
-		textFieldDureeMinRecherche = new JTextField();
-		textFieldDureeMinRecherche.setColumns(10);
-		textFieldDureeMinRecherche.setBounds(113, 90, 36, 20);
-		panelParametreRecherche.add(textFieldDureeMinRecherche);
-		
-		JLabel lblEtRecherche = new JLabel("et");
-		lblEtRecherche.setBounds(161, 93, 27, 14);
-		panelParametreRecherche.add(lblEtRecherche);
-		
-		textFieldDureeMaxRecherche = new JTextField();
-		textFieldDureeMaxRecherche.setColumns(10);
-		textFieldDureeMaxRecherche.setBounds(201, 90, 36, 20);
-		panelParametreRecherche.add(textFieldDureeMaxRecherche);
-		
-		JLabel lblMinRecette = new JLabel("min");
-		lblMinRecette.setBounds(247, 93, 46, 14);
-		panelParametreRecherche.add(lblMinRecette);
-		
-		JLabel lblIngredientRecherche = new JLabel("Ingr\u00E9dient");
-		lblIngredientRecherche.setBounds(29, 151, 58, 14);
-		panelParametreRecherche.add(lblIngredientRecherche);
-		
-		JButton btnRechercher = new JButton("Rechercher");
-		btnRechercher.setBounds(113, 204, 166, 23);
+		JButton btnRechercher = new JButton("Rechercher Tout");
+		btnRechercher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String[] recettes = RecetteCtrl.getRecettesNames(textFieldNomRecherche.getText());
+				listRecetteRecherche.setListData(recettes);
+			}
+		});
+		btnRechercher.setBounds(113, 98, 166, 37);
 		panelParametreRecherche.add(btnRechercher);
 		
-		textFieldIngredientRecherche = new JTextField();
-		textFieldIngredientRecherche.setBounds(113, 148, 166, 20);
-		panelParametreRecherche.add(textFieldIngredientRecherche);
-		textFieldIngredientRecherche.setColumns(10);
+		JButton btnRechercherFavoris = new JButton("Rechercher Favoris");
+		btnRechercherFavoris.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String[] recettes = RecetteCtrl.getRecettesNamesFavoris(textFieldNomRecherche.getText());
+				listRecetteRecherche.setListData(recettes);
+			}
+		});
+		btnRechercherFavoris.setBounds(113, 170, 166, 37);
+		panelParametreRecherche.add(btnRechercherFavoris);
 		
 		JButton btnVoirRecetteRecherche = new JButton("Voir la recette");
+		btnVoirRecetteRecherche.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String recette = listRecetteRecherche.getSelectedValue();
+				if (recette != null) {
+					RecetteCtrl.AfficherRecetteByName(recette);
+				}
+			}
+		});
 		btnVoirRecetteRecherche.setBounds(775, 237, 116, 43);
 		panelRecherche.add(btnVoirRecetteRecherche);
 		
@@ -728,7 +719,7 @@ public class PrincipaleFrame extends JFrame {
 		scrollPaneRecetteRecherche.setBounds(403, 11, 334, 481);
 		panelRecherche.add(scrollPaneRecetteRecherche);
 		
-		JList listRecetteRecherche = new JList();
+		listRecetteRecherche = new JList();
 		scrollPaneRecetteRecherche.setViewportView(listRecetteRecherche);
 		
 	}

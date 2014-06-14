@@ -149,4 +149,24 @@ public class RecetteCtrl {
 		recette.setFavoris(b);
 		recetteDao.updateFavori(recette);
 	}
+
+	public static String[] getRecettesNames(String nomRecette) {
+		Vector<Recette> recettes = recetteDao.findByNomIncomplet(nomRecette);
+		String[] nomRecettes = new String[recettes.size()];
+		int i = 0;
+		for (Recette r : recettes) {
+			nomRecettes[i++] = r.getNom();
+		}
+		return nomRecettes;
+	}
+
+	public static String[] getRecettesNamesFavoris(String nomRecette) {
+		Vector<Recette> recettes = recetteDao.findByNomIncompletFavoris(nomRecette);
+		String[] nomRecettes = new String[recettes.size()];
+		int i = 0;
+		for (Recette r : recettes) {
+			nomRecettes[i++] = r.getNom();
+		}
+		return nomRecettes;
+	}
 }

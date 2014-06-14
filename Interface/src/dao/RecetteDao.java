@@ -162,4 +162,64 @@ public class RecetteDao extends Dao<Recette> {
 	    	return false;
 	    }
 	}
+
+	public Vector<Recette> findByNomIncomplet(String nom) {
+		nom = format(nom);
+		PreparedStatement s;
+		ResultSet rs;
+		Vector<Recette> listRecette = new Vector<Recette>();
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM recette WHERE nom LIKE '%" + nom + "%';");
+	      rs = s.executeQuery();
+	      while(rs.next()) {
+	    	  Recette r = new Recette(
+	    			  rs.getInt("id_recette"),
+	    	          rs.getString("nom"),
+	    	          rs.getString("description"),
+	    	          rs.getInt("temps_cuisson"),
+	    	          rs.getInt("temps_preparation"),
+	    	          rs.getBoolean("favoris"),
+	    	          rs.getString("image"),
+	    	          rs.getInt("nombre_personne"),
+	    	          rs.getBoolean("nb_personne_flexible"),
+	    	          rs.getInt("id_type_recette")
+	          );    
+	    	  
+	    	  listRecette.add(r);
+	      }
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+		return listRecette;
+	}
+
+	public Vector<Recette> findByNomIncompletFavoris(String nom) {
+		nom = format(nom);
+		PreparedStatement s;
+		ResultSet rs;
+		Vector<Recette> listRecette = new Vector<Recette>();
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM recette WHERE nom LIKE '%" + nom + "%' AND favoris = 1;");
+	      rs = s.executeQuery();
+	      while(rs.next()) {
+	    	  Recette r = new Recette(
+	    			  rs.getInt("id_recette"),
+	    	          rs.getString("nom"),
+	    	          rs.getString("description"),
+	    	          rs.getInt("temps_cuisson"),
+	    	          rs.getInt("temps_preparation"),
+	    	          rs.getBoolean("favoris"),
+	    	          rs.getString("image"),
+	    	          rs.getInt("nombre_personne"),
+	    	          rs.getBoolean("nb_personne_flexible"),
+	    	          rs.getInt("id_type_recette")
+	          );    
+	    	  
+	    	  listRecette.add(r);
+	      }
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+		return listRecette;
+	}
 }
