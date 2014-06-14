@@ -2,6 +2,7 @@ package ctrl;
 
 import java.util.Vector;
 
+import view.RecetteFrame;
 import dao.RecetteAlimentDao;
 import dao.RecetteDao;
 import bo.Aliment;
@@ -11,34 +12,6 @@ import bo.RecetteAliment;
 public class RecetteCtrl {
 	static private RecetteDao recetteDao = new RecetteDao();
 	static private RecetteAlimentDao recetteAlimentDao = new RecetteAlimentDao();
-	
-	public static Vector<Recette> getRecetteRapide(int nombreRecette) {
-		Vector<Recette> allRecettes = recetteDao.getListAllItems();
-		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
-		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
-		
-		for (Recette r : allRecettes) {
-			RecetteCtrl.setAlimentsRecette(r);
-		}
-		
-		for (int i = 0; i < nombreRecette; i++) {
-			double ptsMax = -1.0;
-			Recette recetteSelectionnee = null;
-			
-			for (Recette r : allRecettes) {
-				double score = RecetteCtrl.getScore(r, aliments);
-				if (score > ptsMax) {
-					ptsMax = score;
-					recetteSelectionnee = r;
-				}
-			}
-			
-			recettesSelectionnees.add(recetteSelectionnee);
-			allRecettes.remove(recetteSelectionnee);
-		}
-	
-		return recettesSelectionnees;
-	}
 	
 	private static double getScore(Recette r, Vector<Aliment> aliments) {
 		Vector<Aliment> alimentsRecette = r.getAlimentsRecette();
@@ -102,5 +75,73 @@ public class RecetteCtrl {
 
 	public static Recette getRecetteById(int idRecette) {
 		return recetteDao.find(idRecette);
+	}
+
+	public static void AfficherRecetteByName(String nomRecette) {
+		Recette recette = recetteDao.find(recetteDao.findIdByName(nomRecette));
+		RecetteFrame recetteFrame = new RecetteFrame(recette);
+		recetteFrame.setVisible(true);
+	}
+	
+	public static Vector<Recette> getRecetteRapide(int nbRecette) {
+		Vector<Recette> allRecettes = recetteDao.getListAllItems();
+		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
+		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
+		
+		for (Recette r : allRecettes) {
+			RecetteCtrl.setAlimentsRecette(r);
+		}
+		
+		for (int i = 0; i < nbRecette; i++) {
+			if (allRecettes.size() == 0) {
+				break;
+			}
+			double ptsMax = -1.0;
+			Recette recetteSelectionnee = null;
+			
+			for (Recette r : allRecettes) {
+				double score = RecetteCtrl.getScore(r, aliments);
+				if (score > ptsMax) {
+					ptsMax = score;
+					recetteSelectionnee = r;
+				}
+			}
+			
+			recettesSelectionnees.add(recetteSelectionnee);
+			allRecettes.remove(recetteSelectionnee);
+		}
+	
+		return recettesSelectionnees;
+	}
+
+	public static Vector<Recette> getRecetteRapideFavoris(int nbRecette) {
+		Vector<Recette> allRecettes = recetteDao.getListAllFavoris();
+		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
+		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
+		
+		for (Recette r : allRecettes) {
+			RecetteCtrl.setAlimentsRecette(r);
+		}
+		
+		for (int i = 0; i < nbRecette; i++) {
+			if (allRecettes.size() == 0) {
+				break;
+			}
+			double ptsMax = -1.0;
+			Recette recetteSelectionnee = null;
+			
+			for (Recette r : allRecettes) {
+				double score = RecetteCtrl.getScore(r, aliments);
+				if (score > ptsMax) {
+					ptsMax = score;
+					recetteSelectionnee = r;
+				}
+			}
+			
+			recettesSelectionnees.add(recetteSelectionnee);
+			allRecettes.remove(recetteSelectionnee);
+		}
+	
+		return recettesSelectionnees;
 	}
 }
