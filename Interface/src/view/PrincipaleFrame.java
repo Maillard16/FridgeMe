@@ -110,6 +110,8 @@ public class PrincipaleFrame extends JFrame {
 	
 	private JScrollPane scrollPaneFrigoAcceuil;
 	
+	private static PrincipaleFrame instance;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -118,8 +120,8 @@ public class PrincipaleFrame extends JFrame {
 			public void run() {
 				try {
 					JFrame.setDefaultLookAndFeelDecorated(true);
-					PrincipaleFrame frame = new PrincipaleFrame();
-					frame.setVisible(true);
+					instance = new PrincipaleFrame();
+					instance.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -138,7 +140,7 @@ public class PrincipaleFrame extends JFrame {
 	private void initialize() {
 		setTitle("Fridge Me");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 957, 467);
+		setBounds(100, 100, 950, 600);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -232,16 +234,16 @@ public class PrincipaleFrame extends JFrame {
 		panelAcceuil.setLayout(null);
 		
 		panelFrigoAcceuil = new JPanel();
-		panelFrigoAcceuil.setBounds(10, 11, 232, 316);
+		panelFrigoAcceuil.setBounds(10, 11, 232, 447);
 		panelAcceuil.add(panelFrigoAcceuil);
 		panelFrigoAcceuil.setLayout(null);
 		
 		btnOuvrirFrigo = new JButton("Ouvrir mon frigo");
-		btnOuvrirFrigo.setBounds(49, 149, 129, 23);
+		btnOuvrirFrigo.setBounds(49, 183, 129, 23);
 		panelFrigoAcceuil.add(btnOuvrirFrigo);
 		
 		listFrigo = new JList();
-		listFrigo.setModel(remplissageTableAlimentFrigo());
+		listFrigo.setModel(remplissageListAlimentFrigo());
 		listFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Frigo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		btnFermerFrigo = new JButton("Fermer mon frigo");
@@ -252,12 +254,12 @@ public class PrincipaleFrame extends JFrame {
 				btnOuvrirFrigo.show();
 			}
 		});
-		btnFermerFrigo.setBounds(74, 287, 148, 23);
+		btnFermerFrigo.setBounds(74, 413, 148, 23);
 		btnFermerFrigo.hide();
 		panelFrigoAcceuil.add(btnFermerFrigo);
 		
 		scrollPaneFrigoAcceuil = new JScrollPane();
-		scrollPaneFrigoAcceuil.setBounds(10, 0, 212, 279);
+		scrollPaneFrigoAcceuil.setBounds(10, 0, 212, 402);
 		scrollPaneFrigoAcceuil.setViewportView(listFrigo);
 		panelFrigoAcceuil.add(scrollPaneFrigoAcceuil);
 		scrollPaneFrigoAcceuil.hide();
@@ -280,17 +282,17 @@ public class PrincipaleFrame extends JFrame {
 				}
 			}
 		});
-		btnAcceuilVoirRecette.setBounds(522, 321, 152, 23);
+		btnAcceuilVoirRecette.setBounds(521, 469, 152, 23);
 		panelAcceuil.add(btnAcceuilVoirRecette);
 		
 		JPanel panelRecetteAcceuil = new JPanel();
 		panelRecetteAcceuil.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelRecetteAcceuil.setBounds(254, 6, 634, 300);
+		panelRecetteAcceuil.setBounds(254, 6, 634, 452);
 		panelAcceuil.add(panelRecetteAcceuil);
 		panelRecetteAcceuil.setLayout(null);
 		
 		scrollPaneFavorisAcceuil = new JScrollPane();
-		scrollPaneFavorisAcceuil.setBounds(6, 6, 300, 283);
+		scrollPaneFavorisAcceuil.setBounds(6, 6, 301, 435);
 		panelRecetteAcceuil.add(scrollPaneFavorisAcceuil);
 		
 		listFavoris = new JList();
@@ -301,15 +303,15 @@ public class PrincipaleFrame extends JFrame {
 			}
 		});
 		scrollPaneFavorisAcceuil.setViewportView(listFavoris);
-		listFavoris.setModel(remplissageTableFavorisRecette());
+		listFavoris.setModel(remplissageListFavorisRecette());
 		listFavoris.setBorder(new TitledBorder(null, "Recettes Favorites", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JScrollPane scrollPaneHistoriqueAcceuil = new JScrollPane();
-		scrollPaneHistoriqueAcceuil.setBounds(316, 6, 308, 283);
+		scrollPaneHistoriqueAcceuil.setBounds(316, 6, 308, 435);
 		panelRecetteAcceuil.add(scrollPaneHistoriqueAcceuil);
 		
 		listHistorique = new JList();
-		listHistorique.setModel(remplissageTableHistoriqueRecette());
+		listHistorique.setModel(remplissageListHistoriqueRecette());
 		listHistorique.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -413,13 +415,13 @@ public class PrincipaleFrame extends JFrame {
 		panelListeAlimentFrigo = new JPanel();
 
 		panelListeAlimentFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Liste des aliments", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelListeAlimentFrigo.setBounds(357, 11, 559, 298);
+		panelListeAlimentFrigo.setBounds(357, 11, 552, 447);
 		panelFrigo.add(panelListeAlimentFrigo);
 		panelListeAlimentFrigo.setLayout(null);
 		
 		scrollPaneListeAlimentFrigo = new JScrollPane();
 		scrollPaneListeAlimentFrigo.setViewportBorder(null);
-		scrollPaneListeAlimentFrigo.setBounds(10, 22, 539, 265);
+		scrollPaneListeAlimentFrigo.setBounds(10, 22, 532, 414);
 		panelListeAlimentFrigo.add(scrollPaneListeAlimentFrigo);
 		
 		tableAlimentFrigo = new JTable();		
@@ -429,7 +431,7 @@ public class PrincipaleFrame extends JFrame {
 		tableAlimentFrigo.setModel(remplissageTableProduitFrigo());
 		
 		JButton btnAnnulerFrigo = new JButton("Annuler");
-		btnAnnulerFrigo.setBounds(504, 319, 95, 23);
+		btnAnnulerFrigo.setBounds(502, 469, 95, 23);
 		panelFrigo.add(btnAnnulerFrigo);
 		
 		JButton btnEnregistrerAlimentFrigo = new JButton("Enregistrer");
@@ -439,7 +441,7 @@ public class PrincipaleFrame extends JFrame {
 					if (PrincipaleFrame.isPositiveInteger(textFieldQuantiteAjouterAliment.getText())) {
 						AlimentCtrl.ajouterAliment((String)comboBoxAjoutAlimentFrigo.getSelectedItem(), Integer.parseInt(textFieldQuantiteAjouterAliment.getText()));
 						tableAlimentFrigo.setModel(remplissageTableProduitFrigo());
-						listFrigo.setModel(remplissageTableAlimentFrigo());
+						listFrigo.setModel(remplissageListAlimentFrigo());
 					}
 				}
 			}
@@ -448,7 +450,18 @@ public class PrincipaleFrame extends JFrame {
 		panelFrigo.add(btnEnregistrerAlimentFrigo);
 		
 		JButton btnEnregistrerFrigo = new JButton("Enregistrer");
-		btnEnregistrerFrigo.setBounds(717, 319, 143, 23);
+		btnEnregistrerFrigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// On valide la dernière edition si il faut
+				if (tableAlimentFrigo.isEditing()) {
+					tableAlimentFrigo.getCellEditor().stopCellEditing();
+				}
+				AlimentCtrl.modifierQuantites(tableAlimentFrigo.getModel());
+				tableAlimentFrigo.setModel(remplissageTableProduitFrigo());
+				listFrigo.setModel(remplissageListAlimentFrigo());
+			}
+		});
+		btnEnregistrerFrigo.setBounds(698, 469, 143, 23);
 		panelFrigo.add(btnEnregistrerFrigo);
 		btnAnnulerFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -519,7 +532,7 @@ public class PrincipaleFrame extends JFrame {
 				}
 			}
 		});
-		btnVoirRecette.setBounds(620, 176, 139, 40);
+		btnVoirRecette.setBounds(662, 267, 139, 40);
 		panelJaiFaim.add(btnVoirRecette);
 		
 		listJaiFaim = new JList<String>();
@@ -536,7 +549,7 @@ public class PrincipaleFrame extends JFrame {
 		textFieldNbRecetteJaiFaim.setColumns(10);
 		
 		JScrollPane scrollPaneJaiFaim = new JScrollPane();
-		scrollPaneJaiFaim.setBounds(282, 73, 307, 286);
+		scrollPaneJaiFaim.setBounds(296, 73, 307, 419);
 		scrollPaneJaiFaim.setViewportView(listJaiFaim);
 		panelJaiFaim.add(scrollPaneJaiFaim);
 		
@@ -608,7 +621,7 @@ public class PrincipaleFrame extends JFrame {
 		JButton btnGestionRecettesFavoris = new JButton("Gestion recettes favoris");
 		btnGestionRecettesFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				listFavorisParametre.setModel(remplissageTableFavorisRecette());
+				listFavorisParametre.setModel(remplissageListFavorisRecette());
 			}
 		});
 		btnGestionRecettesFavoris.setBounds(279, 28, 205, 28);
@@ -619,34 +632,34 @@ public class PrincipaleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnHistoriqueRecette.setBounds(279, 166, 205, 28);
+		btnHistoriqueRecette.setBounds(279, 259, 205, 28);
 		panelParametres.add(btnHistoriqueRecette);
 		
 		JPanel panelFavorisParametre = new JPanel();
 		panelFavorisParametre.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelFavorisParametre.setBounds(525, 11, 391, 348);
+		panelFavorisParametre.setBounds(525, 11, 391, 481);
 		panelParametres.add(panelFavorisParametre);
 		panelFavorisParametre.setLayout(null);
 		
 		listFavorisParametre = new JList();
 		
 		JButton btnSupprimerFavoris = new JButton("Supprimer");
-		btnSupprimerFavoris.setBounds(84, 314, 114, 23);
+		btnSupprimerFavoris.setBounds(85, 447, 114, 23);
 		panelFavorisParametre.add(btnSupprimerFavoris);
 		
 		JButton btnVisualiserFavoris = new JButton("Visualiser");
-		btnVisualiserFavoris.setBounds(225, 314, 114, 23);
+		btnVisualiserFavoris.setBounds(225, 447, 114, 23);
 		panelFavorisParametre.add(btnVisualiserFavoris);
 		
 		JScrollPane scrollPaneFavorisParametre = new JScrollPane();
 		scrollPaneFavorisParametre.setViewportView(listFavorisParametre);
-		scrollPaneFavorisParametre.setBounds(21, 11, 360, 292);
+		scrollPaneFavorisParametre.setBounds(21, 11, 360, 425);
 		panelFavorisParametre.add(scrollPaneFavorisParametre);
 		
 		//TODO
 		
 		JButton btnEffacerHistorique = new JButton("Effacer mon historique");
-		btnEffacerHistorique.setBounds(279, 297, 205, 28);
+		btnEffacerHistorique.setBounds(279, 298, 205, 28);
 		panelParametres.add(btnEffacerHistorique);
 		btnVisualiserFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -659,7 +672,7 @@ public class PrincipaleFrame extends JFrame {
 		
 		JPanel panelParametreRecherche = new JPanel();
 		panelParametreRecherche.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelParametreRecherche.setBounds(10, 11, 334, 348);
+		panelParametreRecherche.setBounds(10, 11, 334, 255);
 		panelRecherche.add(panelParametreRecherche);
 		panelParametreRecherche.setLayout(null);
 		
@@ -708,11 +721,11 @@ public class PrincipaleFrame extends JFrame {
 		textFieldIngredientRecherche.setColumns(10);
 		
 		JButton btnVoirRecetteRecherche = new JButton("Voir la recette");
-		btnVoirRecetteRecherche.setBounds(777, 177, 116, 43);
+		btnVoirRecetteRecherche.setBounds(775, 237, 116, 43);
 		panelRecherche.add(btnVoirRecetteRecherche);
 		
 		JScrollPane scrollPaneRecetteRecherche = new JScrollPane();
-		scrollPaneRecetteRecherche.setBounds(403, 11, 334, 348);
+		scrollPaneRecetteRecherche.setBounds(403, 11, 334, 481);
 		panelRecherche.add(scrollPaneRecetteRecherche);
 		
 		JList listRecetteRecherche = new JList();
@@ -742,7 +755,7 @@ public class PrincipaleFrame extends JFrame {
         return mod;      
     }
 	
-	public AbstractListModel remplissageTableFavorisRecette() {
+	public AbstractListModel remplissageListFavorisRecette() {
 		AbstractListModel mod = new AbstractListModel() {
 			String[] values = RecetteCtrl.getRecettesFavorisNames();
 			public int getSize() {
@@ -756,7 +769,7 @@ public class PrincipaleFrame extends JFrame {
 		return mod;
 	}
 	
-	public AbstractListModel remplissageTableHistoriqueRecette() {
+	public AbstractListModel remplissageListHistoriqueRecette() {
 		AbstractListModel mod = new AbstractListModel() {
 			String[] values = HistoriqueCtrl.getRecetteHistoriqueNames();
 			public int getSize() {
@@ -770,7 +783,7 @@ public class PrincipaleFrame extends JFrame {
 		return mod;
 	}
 	
-	public AbstractListModel remplissageTableAlimentFrigo() {
+	public AbstractListModel remplissageListAlimentFrigo() {
 		AbstractListModel mod = new AbstractListModel() {
 			String[] values = AlimentCtrl.getAlimentsNamesFrigo();
 			public int getSize() {
@@ -798,5 +811,10 @@ public class PrincipaleFrame extends JFrame {
 		    return false;  
 		  } 
 		  return true;  
+	}
+	
+	public static void refreshFavoris() {
+		instance.listFavoris.setModel(instance.remplissageListFavorisRecette());
+		instance.listFavorisParametre.setModel(instance.remplissageListFavorisRecette());
 	}
 }

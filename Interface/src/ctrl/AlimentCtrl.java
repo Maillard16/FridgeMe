@@ -1,6 +1,8 @@
 package ctrl;
 import java.util.Vector;
 
+import javax.swing.table.TableModel;
+
 import dao.AlimentDao;
 import dao.UniteDao;
 import bo.Aliment;
@@ -75,5 +77,50 @@ public class AlimentCtrl {
 			nomAliments[i++] = a.getNom();
 		}
 		return nomAliments;
+	}
+
+	public static void modifierQuantites(TableModel model) {
+		int nombreLignes = model.getRowCount();
+		for (int i = 0; i < nombreLignes; i++) {
+			int quantite = 0;
+			String valueSuppression = (String) model.getValueAt(i, 3);
+			if (valueSuppression != null) {
+				if (isPositiveInteger(valueSuppression)) {
+					quantite -= Integer.valueOf(valueSuppression);
+				}
+			}
+			String valueAjout = (String) model.getValueAt(i, 4);
+			if (valueAjout != null) {
+				if (isPositiveInteger(valueAjout)) {
+					quantite += Integer.valueOf(valueAjout);
+				}
+			}
+			if (quantite != 0) {
+				// On modifie la valeur
+				Aliment aliment = AlimentCtrl.getAlimentbyName((String) model.getValueAt(i, 0));
+				int nouvelleQuantite = aliment.getQuantite() + quantite;
+				if (nouvelleQuantite < 0) {
+					nouvelleQuantite = 0;
+				}
+				aliment.setQuantite(nouvelleQuantite);
+				alimentDao.updateQuantite(aliment);
+			}
+		}
+	}
+	
+	public static boolean isPositiveInteger(String str)  
+	{  
+		  try  
+		  {  
+		    int i = Integer.parseInt(str);
+		    if (i <= 0) {
+		    	return false;
+		    }
+		  }  
+		  catch(NumberFormatException nfe)  
+		  {  
+		    return false;  
+		  } 
+		  return true;  
 	}
 }

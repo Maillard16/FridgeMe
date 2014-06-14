@@ -144,5 +144,22 @@ public class RecetteDao extends Dao<Recette> {
 	    }
 	    return list;
 	}
-	
+
+	public boolean updateFavori(Recette recette) {
+		PreparedStatement s;
+	    int row = 0;
+	    
+	    try {
+	      s = connect.prepareStatement("UPDATE recette SET favoris = " + (recette.isFavoris() ? "1" : "0") + " WHERE id_recette = " + recette.getIdRecette() + ";");
+	      row = s.executeUpdate();   
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    
+	    if (row == 1) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	}
 }

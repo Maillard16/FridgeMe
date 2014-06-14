@@ -144,4 +144,9 @@ public class RecetteCtrl {
 	
 		return recettesSelectionnees;
 	}
+
+	public static void setFavori(Recette recette, boolean b) {
+		recette.setFavoris(b);
+		recetteDao.updateFavori(recette);
+	}
 }

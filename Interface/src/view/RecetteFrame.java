@@ -22,6 +22,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 
+import ctrl.RecetteCtrl;
 import bo.Recette;
 
 import java.awt.event.ActionListener;
@@ -33,6 +34,9 @@ public class RecetteFrame extends JFrame {
 	private JScrollPane scrollDescription;
 	private JLabel lblImage;
 	private JLabel lblImage2;
+	
+	private JLabel lblFavoris2;
+	private JButton btnFavoris;
 
 	/**
 	 * Create the frame.
@@ -107,9 +111,24 @@ public class RecetteFrame extends JFrame {
 		lblNbPersonne.setBounds(300, 84, 140, 15);
 		contentPaneRecette.add(lblNbPersonne);
 		
-		JButton btnFavoris = new JButton("Ajouter au favoris");
+		btnFavoris = new JButton();
+		if (recette.isFavoris()) {
+			btnFavoris.setText("Retirer des favoris");
+		} else {
+			btnFavoris.setText("Ajouter aux favoris");
+		}
 		btnFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (recette.isFavoris()) {
+					RecetteCtrl.setFavori(recette, false);
+					btnFavoris.setText("Ajouter aux favoris");
+					lblFavoris2.setText("non");
+				} else {
+					RecetteCtrl.setFavori(recette, true);
+					btnFavoris.setText("Retirer des favoris");
+					lblFavoris2.setText("oui");
+				}
+				PrincipaleFrame.refreshFavoris();
 			}
 		});
 		btnFavoris.setBounds(35, 511, 207, 25);
@@ -143,7 +162,7 @@ public class RecetteFrame extends JFrame {
 		lblTempsCuisson2.setBounds(136, 84, 140, 14);
 		contentPaneRecette.add(lblTempsCuisson2);
 		
-		JLabel lblFavoris2 = new JLabel();
+		lblFavoris2 = new JLabel();
 		lblFavoris2.setBounds(450, 58, 94, 14);
 		lblFavoris2.setText(recette.isFavoris() ? "oui" : "non");
 		contentPaneRecette.add(lblFavoris2);
