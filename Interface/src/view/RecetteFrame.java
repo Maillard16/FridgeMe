@@ -44,34 +44,34 @@ public class RecetteFrame extends JFrame {
 	public RecetteFrame(final Recette recette) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setTitle(recette.getNom());
-		setBounds(100, 100, 589, 612);
+		setBounds(100, 100, 727, 691);
 		contentPaneRecette = new JPanel();
 		contentPaneRecette.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPaneRecette);
 		contentPaneRecette.setLayout(null);
 		
 		JLabel lblNom = new JLabel("Nom");
-		lblNom.setBounds(12, 33, 104, 15);
+		lblNom.setBounds(12, 22, 104, 15);
 		contentPaneRecette.add(lblNom);
 		
 		JLabel lblDescription = new JLabel("Description");
-		lblDescription.setBounds(12, 130, 94, 15);
+		lblDescription.setBounds(12, 303, 94, 15);
 		contentPaneRecette.add(lblDescription);
 		
 		JLabel lblTempsPrep = new JLabel("Temps préparation");
-		lblTempsPrep.setBounds(12, 58, 114, 15);
+		lblTempsPrep.setBounds(12, 47, 114, 15);
 		contentPaneRecette.add(lblTempsPrep);
 		
 		JLabel lblTempsCuisson = new JLabel("Temps cuisson");
-		lblTempsCuisson.setBounds(12, 84, 114, 15);
+		lblTempsCuisson.setBounds(12, 73, 114, 15);
 		contentPaneRecette.add(lblTempsCuisson);
 		
 		JLabel lblFavoris = new JLabel("Favoris");
-		lblFavoris.setBounds(300, 58, 94, 15);
+		lblFavoris.setBounds(300, 47, 94, 15);
 		contentPaneRecette.add(lblFavoris);
 		
 		lblImage = new JLabel("Lien pour image");
-		lblImage.setBounds(12, 466, 114, 15);
+		lblImage.setBounds(12, 588, 114, 15);
 		contentPaneRecette.add(lblImage);
 		
 		lblImage2 = new JLabel(recette.getImage());
@@ -104,11 +104,11 @@ public class RecetteFrame extends JFrame {
 				   
 			}
 		});
-		lblImage2.setBounds(136, 466, 410, 15);
+		lblImage2.setBounds(136, 588, 410, 15);
 		contentPaneRecette.add(lblImage2);
 		
 		JLabel lblNbPersonne = new JLabel("Nombre de personne");
-		lblNbPersonne.setBounds(300, 84, 140, 15);
+		lblNbPersonne.setBounds(300, 73, 140, 15);
 		contentPaneRecette.add(lblNbPersonne);
 		
 		btnFavoris = new JButton();
@@ -131,55 +131,61 @@ public class RecetteFrame extends JFrame {
 				PrincipaleFrame.refreshFavoris();
 			}
 		});
-		btnFavoris.setBounds(35, 511, 207, 25);
+		btnFavoris.setBounds(110, 617, 207, 25);
 		contentPaneRecette.add(btnFavoris);
 		
 		JButton btnConsommerRecette = new JButton("Consommer la recette");
 		btnConsommerRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				RecetteCtrl.consommerRecette(recette);
+				PrincipaleFrame.refreshFrigo();
+				PrincipaleFrame.refreshHistorique();
 			}
 		});
-		btnConsommerRecette.setBounds(317, 511, 207, 25);
+		btnConsommerRecette.setBounds(383, 617, 207, 25);
 		contentPaneRecette.add(btnConsommerRecette);
 		
 		JScrollPane scrollPaneDescription = new JScrollPane();
-		scrollPaneDescription.setBounds(109, 124, 437, 142);
+		scrollPaneDescription.setBounds(12, 329, 689, 235);
 		contentPaneRecette.add(scrollPaneDescription);
 		
 		JTextArea textAreaDescription = new JTextArea();
 		textAreaDescription.setText(recette.getDescription());
+		textAreaDescription.setCaretPosition(0);
 		scrollPaneDescription.setViewportView(textAreaDescription);
 		
 		JLabel lblNom2 = new JLabel(recette.getNom());
-		lblNom2.setBounds(136, 33, 268, 14);
+		lblNom2.setBounds(136, 22, 268, 14);
 		contentPaneRecette.add(lblNom2);
 		
 		JLabel lblTempsPrep2 = new JLabel(recette.getTempsPreparation() + " minutes");
-		lblTempsPrep2.setBounds(136, 58, 140, 14);
+		lblTempsPrep2.setBounds(136, 47, 140, 14);
 		contentPaneRecette.add(lblTempsPrep2);
 		
 		JLabel lblTempsCuisson2 = new JLabel(recette.getTempsCuisson() + " minutes");
-		lblTempsCuisson2.setBounds(136, 84, 140, 14);
+		lblTempsCuisson2.setBounds(136, 73, 140, 14);
 		contentPaneRecette.add(lblTempsCuisson2);
 		
 		lblFavoris2 = new JLabel();
-		lblFavoris2.setBounds(450, 58, 94, 14);
+		lblFavoris2.setBounds(450, 47, 94, 14);
 		lblFavoris2.setText(recette.isFavoris() ? "oui" : "non");
 		contentPaneRecette.add(lblFavoris2);
 		
 		JLabel lblNbPersonne2 = new JLabel(recette.getNombrePersonne() + "");
-		lblNbPersonne2.setBounds(450, 84, 94, 14);
+		lblNbPersonne2.setBounds(450, 73, 94, 14);
 		contentPaneRecette.add(lblNbPersonne2);
 		
 		JLabel lblIngrdients = new JLabel("Ingrédients");
-		lblIngrdients.setBounds(12, 286, 94, 14);
+		lblIngrdients.setBounds(12, 110, 94, 14);
 		contentPaneRecette.add(lblIngrdients);
 		
 		JScrollPane scrollPaneIngredients = new JScrollPane();
-		scrollPaneIngredients.setBounds(109, 286, 437, 142);
+		scrollPaneIngredients.setBounds(12, 129, 689, 163);
 		contentPaneRecette.add(scrollPaneIngredients);
 		
 		JTextArea textAreaIngredients = new JTextArea();
+		textAreaIngredients.setText(RecetteCtrl.getIngredientsText(recette));
+		textAreaIngredients.setCaretPosition(0);
 		scrollPaneIngredients.setViewportView(textAreaIngredients);
 	}
 }

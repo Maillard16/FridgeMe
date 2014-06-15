@@ -34,20 +34,20 @@ public class RecetteAlimentDao extends Dao<RecetteAliment> {
 		return null;
 	}
 	
-	public RecetteAliment findByKey(int idRecette,int idAliment) {
+	public RecetteAliment findByKey(int idRecette, int idAliment, int priorite) {
 		PreparedStatement pst;
 		ResultSet rs;
 		
 		try {
 			pst = connect.prepareStatement("SELECT * FROM recette_aliment WHERE id_recette = "+
-						idRecette +" AND id_aliment = "+ idAliment);
+						idRecette +" AND id_aliment = "+ idAliment + " AND priorite = " + priorite + ";");
 			rs = pst.executeQuery();
 			if(rs.next()){
 				return new RecetteAliment(
 						idAliment,
 						idRecette,
 						rs.getInt("quantite"),
-						rs.getInt("priorite"),
+						priorite,
 						rs.getString("nom_complet")
 						);
 			}
@@ -81,7 +81,27 @@ public class RecetteAlimentDao extends Dao<RecetteAliment> {
 	    }
 	    return list;
 	}
-	
-	
 
+	public Vector<RecetteAliment> getListAllItemsRecette(int idRecette) {
+		Vector<RecetteAliment> list = new Vector<RecetteAliment>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM recette_aliment WHERE id_recette = " + idRecette + ";");
+	      rs = s.executeQuery();
+	      while(rs.next()) {
+	    	  list.add(new RecetteAliment(
+	    			  	rs.getInt("id_aliment"),
+	    			  	rs.getInt("id_recette"),
+						rs.getInt("quantite"),
+						rs.getInt("priorite"),
+						rs.getString("nom_complet")
+						));
+	      }
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
+	}
 }

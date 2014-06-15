@@ -1,10 +1,16 @@
 package ctrl;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import view.RecetteFrame;
+import dao.AlimentDao;
 import dao.RecetteAlimentDao;
 import dao.RecetteDao;
+import dao.UniteDao;
 import bo.Aliment;
 import bo.Recette;
 import bo.RecetteAliment;
@@ -12,6 +18,8 @@ import bo.RecetteAliment;
 public class RecetteCtrl {
 	static private RecetteDao recetteDao = new RecetteDao();
 	static private RecetteAlimentDao recetteAlimentDao = new RecetteAlimentDao();
+	static private AlimentDao alimentDao = new AlimentDao();
+	static private UniteDao uniteDao = new UniteDao();
 	
 	private static double getScore(Recette r, Vector<Aliment> aliments) {
 		Vector<Aliment> alimentsRecette = r.getAlimentsRecette();
@@ -168,5 +176,69 @@ public class RecetteCtrl {
 			nomRecettes[i++] = r.getNom();
 		}
 		return nomRecettes;
+	}
+
+	public static void consommerRecette(Recette recette) {
+		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItemsRecette(recette.getIdRecette());
+		String consommation = "";
+		for (RecetteAliment rA : recetteAliments) {
+			Aliment aliment = alimentDao.find(rA.getIdAliment());
+			if (aliment.getQuantite() > 0) {
+				int nouvelleQuantite = 0;
+				int quantiteConsommee = 0;
+				if (aliment.getQuantite() > rA.getQuantite()) {
+					nouvelleQuantite = aliment.getQuantite() - rA.getQuantite();
+					quantiteConsommee = rA.getQuantite();
+				} else {
+					quantiteConsommee = aliment.getQuantite();
+				}
+				aliment.setQuantite(nouvelleQuantite);
+				alimentDao.updateQuantite(aliment);
+				consommation += "\n- " + aliment.getNom() + " : " + quantiteConsommee + " " + uniteDao.find(aliment.getIdUnite()).getNom(); 
+			}
+		}
+		if (!consommation.equals("")) {
+			JOptionPane.showMessageDialog(null,
+					"Consommation dans le frigo :" + consommation );
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Aucun aliment consommé dans le frigo.");
+		}
+		HistoriqueCtrl.addConsommation(recette);
+	}
+
+	public static String getIngredientsText(Recette recette) {
+		Vector<RecetteAliment> recetteAlimentsVector = recetteAlimentDao.getListAllItemsRecette(recette.getIdRecette());
+		RecetteAliment[] recetteAliments = new RecetteAliment[recetteAlimentsVector.size()];
+		int i = 0;
+		for (RecetteAliment rA : recetteAlimentsVector) {
+			recetteAliments[i++] = rA;
+		}
+		// On trie par ordre décroissant de prioritéss
+		Arrays.sort(recetteAliments, new Comparator<RecetteAliment>() {
+			@Override
+			public int compare(RecetteAliment rA1, RecetteAliment rA2) {
+				if(rA1.getPriorite() > rA2.getPriorite())
+			    {
+			        return -1;
+			    }
+			    else
+			    {
+			        if(rA1.getPriorite() < rA2.getPriorite())
+			        {
+			            return 1;
+			        }
+			        else
+			        {
+			            return 0;
+			        }
+			    } 
+			}
+		});
+		String text = "";
+		for (RecetteAliment rA : recetteAliments) {
+			text += rA.getNomComplet() + "\n";
+		}
+		return text;
 	}
 }

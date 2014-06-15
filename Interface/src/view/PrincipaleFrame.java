@@ -77,7 +77,7 @@ public class PrincipaleFrame extends JFrame {
 	private JPanel panelFrigoAcceuil;
 	private JButton btnOuvrirFrigo; 
 	private JButton btnNomAjouterAliment;
-	private JList listFrigo;
+	private JList<String> listFrigo;
 	private JButton btnAcceuilVoirRecette;
 	private JPanel panelFrigo;
 	private JPanel panelJaiFaim;
@@ -93,7 +93,6 @@ public class PrincipaleFrame extends JFrame {
 	private JList<String> listHistorique;
 	private JList<String> listFavoris;
 	private JMenu mnFichier;
-	private JComboBox comboBoxCouleurParametre;
 	
 	private JScrollPane scrollPaneListeAlimentFrigo;
 	
@@ -104,11 +103,17 @@ public class PrincipaleFrame extends JFrame {
 	private JComboBox comboBoxAjoutAlimentFrigo;
 	
 	private JList<String> listFavorisParametre;
+	private JList<String> listHistoriqueParametre;
+	
 	private JList<String> listRecetteRecherche;	
 	
 	private JScrollPane scrollPaneFrigoAcceuil;
+	private JScrollPane scrollPaneFavorisParametre;
 	
 	private static PrincipaleFrame instance;
+	
+	// true pour favoris, false pour historique
+	private boolean modeListParametre = true;
 	
 	/**
 	 * Launch the application.
@@ -166,6 +171,15 @@ public class PrincipaleFrame extends JFrame {
 		});
 		
 		JMenuItem mntmSupprimerHistorique = new JMenuItem("Supprimer historique");
+		mntmSupprimerHistorique.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Voulez-vous effacer l'historique?") == 0) {
+					HistoriqueCtrl.effacerHistorique();
+					refreshHistorique();
+				}
+			}
+		});
 		mnEditer.add(mntmSupprimerHistorique);
 		mnEditer.add(mntmParamtres);
 		
@@ -242,8 +256,8 @@ public class PrincipaleFrame extends JFrame {
 		
 		listFrigo = new JList();
 		listFrigo.setModel(remplissageListAlimentFrigo());
-		listFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Frigo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
+		// listFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Frigo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		listFrigo.setBorder(new TitledBorder(null, "Frigo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		btnFermerFrigo = new JButton("Fermer mon frigo");
 		btnFermerFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -595,15 +609,6 @@ public class PrincipaleFrame extends JFrame {
 		panelReglageParametre.add(textFieldNbPersonneParametre);
 		textFieldNbPersonneParametre.setColumns(10);
 		
-		comboBoxCouleurParametre = new JComboBox();
-		comboBoxCouleurParametre.setModel(new DefaultComboBoxModel(new String[] {"Default", "Bleu", "Jaune", "Vert"}));
-		comboBoxCouleurParametre.setBounds(117, 73, 92, 26);
-		panelReglageParametre.add(comboBoxCouleurParametre);
-		
-		JLabel lblCouleurInterfaceParametre = new JLabel("Couleur Interface");
-		lblCouleurInterfaceParametre.setBounds(10, 78, 109, 16);
-		panelReglageParametre.add(lblCouleurInterfaceParametre);
-		
 		JButton btnEnregistrerParametre = new JButton("Enregistrer");
 		btnEnregistrerParametre.setBounds(31, 170, 158, 23);
 		panelReglageParametre.add(btnEnregistrerParametre);
@@ -619,7 +624,8 @@ public class PrincipaleFrame extends JFrame {
 		JButton btnGestionRecettesFavoris = new JButton("Gestion recettes favoris");
 		btnGestionRecettesFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				listFavorisParametre.setModel(remplissageListFavorisRecette());
+				modeListParametre = true;
+				scrollPaneFavorisParametre.setViewportView(listFavorisParametre);
 			}
 		});
 		btnGestionRecettesFavoris.setBounds(279, 28, 205, 28);
@@ -628,6 +634,8 @@ public class PrincipaleFrame extends JFrame {
 		JButton btnHistoriqueRecette = new JButton("Gestion historique");
 		btnHistoriqueRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				modeListParametre = false;
+				scrollPaneFavorisParametre.setViewportView(listHistoriqueParametre);
 			}
 		});
 		btnHistoriqueRecette.setBounds(279, 259, 205, 28);
@@ -640,27 +648,68 @@ public class PrincipaleFrame extends JFrame {
 		panelFavorisParametre.setLayout(null);
 		
 		listFavorisParametre = new JList();
+		listHistoriqueParametre = new JList();
 		
-		JButton btnSupprimerFavoris = new JButton("Supprimer la recette");
-		btnSupprimerFavoris.setBounds(41, 447, 144, 23);
-		panelFavorisParametre.add(btnSupprimerFavoris);
+		JButton btnSupprimerRecetteParametre = new JButton("Supprimer");
+		btnSupprimerRecetteParametre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (modeListParametre == true) {
+					String recette = listFavorisParametre.getSelectedValue();
+					if (recette != null) {
+						RecetteCtrl.setFavori(RecetteCtrl.getRecetteById(RecetteCtrl.getRecetteIdByName(recette)), false);
+						refreshFavoris();
+					}
+				} else {
+					String recette = listHistoriqueParametre.getSelectedValue();
+					if (recette != null) {
+						HistoriqueCtrl.supprimerDeHistorique(listHistoriqueParametre.getSelectedIndex());
+						refreshHistorique();
+					}
+				}
+			}
+		});
+		btnSupprimerRecetteParametre.setBounds(41, 447, 144, 23);
+		panelFavorisParametre.add(btnSupprimerRecetteParametre);
 		
-		JButton btnVisualiserFavoris = new JButton("Voir la recette");
-		btnVisualiserFavoris.setBounds(218, 447, 150, 23);
-		panelFavorisParametre.add(btnVisualiserFavoris);
+		JButton btnVisualiserRecetteParametre = new JButton("Voir la recette");
+		btnVisualiserRecetteParametre.setBounds(218, 447, 150, 23);
+		panelFavorisParametre.add(btnVisualiserRecetteParametre);
 		
-		JScrollPane scrollPaneFavorisParametre = new JScrollPane();
+		scrollPaneFavorisParametre = new JScrollPane();
 		scrollPaneFavorisParametre.setViewportView(listFavorisParametre);
+		listFavorisParametre.setBorder(new TitledBorder(null, "Favoris", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		listHistoriqueParametre.setBorder(new TitledBorder(null, "Historique", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		listFavorisParametre.setModel(remplissageListFavorisRecette());
+		listHistoriqueParametre.setModel(remplissageListHistoriqueRecette());
 		scrollPaneFavorisParametre.setBounds(21, 11, 360, 425);
 		panelFavorisParametre.add(scrollPaneFavorisParametre);
 		
 		//TODO
 		
 		JButton btnEffacerHistorique = new JButton("Effacer mon historique");
+		btnEffacerHistorique.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (JOptionPane.showConfirmDialog(null, "Voulez-vous effacer l'historique?") == 0) {
+					HistoriqueCtrl.effacerHistorique();
+					refreshHistorique();
+				}
+			}
+		});
 		btnEffacerHistorique.setBounds(279, 298, 205, 28);
 		panelParametres.add(btnEffacerHistorique);
-		btnVisualiserFavoris.addActionListener(new ActionListener() {
+		btnVisualiserRecetteParametre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (modeListParametre == true) {
+					String recette = listFavorisParametre.getSelectedValue();
+					if (recette != null) {
+						RecetteCtrl.AfficherRecetteByName(recette);
+					}
+				} else {
+					String recette = listHistoriqueParametre.getSelectedValue();
+					if (recette != null) {
+						RecetteCtrl.AfficherRecetteByName(recette);
+					}
+				}
 			}
 		});
 		
@@ -807,5 +856,15 @@ public class PrincipaleFrame extends JFrame {
 	public static void refreshFavoris() {
 		instance.listFavoris.setModel(instance.remplissageListFavorisRecette());
 		instance.listFavorisParametre.setModel(instance.remplissageListFavorisRecette());
+	}
+
+	public static void refreshFrigo() {
+		instance.tableAlimentFrigo.setModel(instance.remplissageTableProduitFrigo());
+		instance.listFrigo.setModel(instance.remplissageListAlimentFrigo());
+	}
+
+	public static void refreshHistorique() {
+		instance.listHistorique.setModel(instance.remplissageListHistoriqueRecette());
+		instance.listHistoriqueParametre.setModel(instance.remplissageListHistoriqueRecette());
 	}
 }

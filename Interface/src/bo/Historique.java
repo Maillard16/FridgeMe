@@ -1,9 +1,9 @@
 package bo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Historique {
-	private Date date_heure;
+	private String date_heure;
 	private int idRecette;
 	
 	
@@ -11,18 +11,24 @@ public class Historique {
 		super();
 	}
 
-	public Historique(Date date_heure, int idRecette) {
+	public Historique(Timestamp date_heure, int idRecette) {
+		super();
+		this.date_heure = "" + date_heure;
+		this.idRecette = idRecette;
+	}
+	
+	public Historique(String date_heure, int idRecette) {
 		super();
 		this.date_heure = date_heure;
 		this.idRecette = idRecette;
 	}
 
-	public Date getDate_heure() {
+	public String getDate_heure() {
 		return date_heure;
 	}
 	
-	public void setDate_heure(Date date_heure) {
-		this.date_heure = date_heure;
+	public void setDate_heure(Timestamp date_heure) {
+		this.date_heure = "" + date_heure;
 	}
 	
 	public int getIdRecette() {
@@ -38,8 +44,4 @@ public class Historique {
 		return "Historique [date_heure=" + date_heure + ", idRecette="
 				+ idRecette + "]";
 	}
-	
-	
-	
-	
 }
