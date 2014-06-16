@@ -49,7 +49,9 @@ import javax.swing.KeyStroke;
 
 import ctrl.AlimentCtrl;
 import ctrl.HistoriqueCtrl;
+import ctrl.ParametreCtrl;
 import ctrl.RecetteCtrl;
+import ctrl.SousCategorieCtrl;
 import ctrl.UniteCtrl;
 import bo.*;
 
@@ -107,6 +109,9 @@ public class PrincipaleFrame extends JFrame {
 	
 	private JList<String> listRecetteRecherche;	
 	
+	private JList<String> listSCategorieAutorisee;
+	private JList<String> listSCategorieInterdite;
+	
 	private JScrollPane scrollPaneFrigoAcceuil;
 	private JScrollPane scrollPaneFavorisParametre;
 	
@@ -114,6 +119,7 @@ public class PrincipaleFrame extends JFrame {
 	
 	// true pour favoris, false pour historique
 	private boolean modeListParametre = true;
+	private JTextField textFieldNbPersonneJaiFaim;
 	
 	/**
 	 * Launch the application.
@@ -508,7 +514,7 @@ public class PrincipaleFrame extends JFrame {
 				}
 			}
 		});
-		btnRecetteRapide.setBounds(25, 11, 124, 23);
+		btnRecetteRapide.setBounds(179, 11, 124, 23);
 		panelBoutonJaiFaim.add(btnRecetteRapide);
 		
 		JButton btnRecetteFavoris = new JButton("Recette parmis favoris");
@@ -528,12 +534,8 @@ public class PrincipaleFrame extends JFrame {
 				}
 			}
 		});
-		btnRecetteFavoris.setBounds(331, 11, 168, 23);
+		btnRecetteFavoris.setBounds(532, 11, 168, 23);
 		panelBoutonJaiFaim.add(btnRecetteFavoris);
-		
-		JButton btnModifierNbPersonne = new JButton("Modifier nbr personnes");
-		btnModifierNbPersonne.setBounds(655, 11, 173, 23);
-		panelBoutonJaiFaim.add(btnModifierNbPersonne);
 		
 		JButton btnVoirRecette = new JButton("Voir la recette");
 		btnVoirRecette.addActionListener(new ActionListener() {
@@ -565,6 +567,17 @@ public class PrincipaleFrame extends JFrame {
 		scrollPaneJaiFaim.setViewportView(listJaiFaim);
 		panelJaiFaim.add(scrollPaneJaiFaim);
 		
+		JLabel lblNbPersonneJaiFaim = new JLabel("nombre de personnes :");
+		lblNbPersonneJaiFaim.setBounds(10, 108, 138, 14);
+		panelJaiFaim.add(lblNbPersonneJaiFaim);
+		
+		textFieldNbPersonneJaiFaim = new JTextField();
+		textFieldNbPersonneJaiFaim.setText(ParametreCtrl.getNbPersonne(1));
+		textFieldNbPersonneJaiFaim.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldNbPersonneJaiFaim.setColumns(10);
+		textFieldNbPersonneJaiFaim.setBounds(150, 105, 46, 20);
+		panelJaiFaim.add(textFieldNbPersonneJaiFaim);
+		
 		panelPlanning = new JPanel();
 		tabbedPaneMain.addTab("Planning repas", null, panelPlanning, null);
 		panelPlanning.setLayout(null);
@@ -595,7 +608,7 @@ public class PrincipaleFrame extends JFrame {
 		
 		JPanel panelReglageParametre = new JPanel();
 		panelReglageParametre.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelReglageParametre.setBounds(10, 11, 215, 243);
+		panelReglageParametre.setBounds(10, 11, 215, 104);
 		panelParametres.add(panelReglageParametre);
 		panelReglageParametre.setLayout(null);
 		
@@ -605,19 +618,17 @@ public class PrincipaleFrame extends JFrame {
 		
 		textFieldNbPersonneParametre = new JTextField();
 		textFieldNbPersonneParametre.setBounds(147, 18, 42, 20);
-		textFieldNbPersonneParametre.setText("1");
+		textFieldNbPersonneParametre.setText(ParametreCtrl.getNbPersonne(1));
 		panelReglageParametre.add(textFieldNbPersonneParametre);
 		textFieldNbPersonneParametre.setColumns(10);
 		
 		JButton btnEnregistrerParametre = new JButton("Enregistrer");
-		btnEnregistrerParametre.setBounds(31, 170, 158, 23);
+		btnEnregistrerParametre.setBounds(31, 58, 158, 23);
 		panelReglageParametre.add(btnEnregistrerParametre);
-		
-		JButton btnAnnulerParametre = new JButton("Annuler");
-		btnAnnulerParametre.setBounds(67, 200, 90, 20);
-		panelReglageParametre.add(btnAnnulerParametre);
 		btnEnregistrerParametre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ParametreCtrl.updateNbPersonne(textFieldNbPersonneParametre.getText());
+				textFieldNbPersonneJaiFaim.setText(ParametreCtrl.getNbPersonne(1));
 			}
 		});
 		
@@ -628,7 +639,7 @@ public class PrincipaleFrame extends JFrame {
 				scrollPaneFavorisParametre.setViewportView(listFavorisParametre);
 			}
 		});
-		btnGestionRecettesFavoris.setBounds(279, 28, 205, 28);
+		btnGestionRecettesFavoris.setBounds(279, 11, 205, 28);
 		panelParametres.add(btnGestionRecettesFavoris);
 		
 		JButton btnHistoriqueRecette = new JButton("Gestion historique");
@@ -638,7 +649,7 @@ public class PrincipaleFrame extends JFrame {
 				scrollPaneFavorisParametre.setViewportView(listHistoriqueParametre);
 			}
 		});
-		btnHistoriqueRecette.setBounds(279, 259, 205, 28);
+		btnHistoriqueRecette.setBounds(279, 50, 205, 28);
 		panelParametres.add(btnHistoriqueRecette);
 		
 		JPanel panelFavorisParametre = new JPanel();
@@ -684,8 +695,6 @@ public class PrincipaleFrame extends JFrame {
 		scrollPaneFavorisParametre.setBounds(21, 11, 360, 425);
 		panelFavorisParametre.add(scrollPaneFavorisParametre);
 		
-		//TODO
-		
 		JButton btnEffacerHistorique = new JButton("Effacer mon historique");
 		btnEffacerHistorique.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -695,8 +704,52 @@ public class PrincipaleFrame extends JFrame {
 				}
 			}
 		});
-		btnEffacerHistorique.setBounds(279, 298, 205, 28);
+		btnEffacerHistorique.setBounds(279, 89, 205, 28);
 		panelParametres.add(btnEffacerHistorique);
+		
+		JScrollPane scrollPaneSCategorieAutorisee = new JScrollPane();
+		scrollPaneSCategorieAutorisee.setBounds(10, 142, 186, 350);
+		panelParametres.add(scrollPaneSCategorieAutorisee);
+		
+		listSCategorieAutorisee = new JList();
+		listSCategorieAutorisee.setBorder(new TitledBorder(null, "Autorisé", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		listSCategorieAutorisee.setModel(remplissageListSCategorieAutorisee());
+		scrollPaneSCategorieAutorisee.setViewportView(listSCategorieAutorisee);
+		
+		JScrollPane scrollPaneSCategorieInterdite = new JScrollPane();
+		scrollPaneSCategorieInterdite.setBounds(298, 142, 186, 350);
+		panelParametres.add(scrollPaneSCategorieInterdite);
+		
+		listSCategorieInterdite = new JList();
+		listSCategorieInterdite.setBorder(new TitledBorder(null, "Interdit", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		listSCategorieInterdite.setModel(remplissageListSCategorieInterdite());
+		scrollPaneSCategorieInterdite.setViewportView(listSCategorieInterdite);
+		
+		JButton btnInterdireCategorie = new JButton(">>");
+		btnInterdireCategorie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String selection = listSCategorieAutorisee.getSelectedValue();
+				if (selection != null) {
+					SousCategorieCtrl.setInterdit(selection);
+					instance.refreshSousCategorie();
+				}
+			}
+		});
+		btnInterdireCategorie.setBounds(206, 261, 82, 23);
+		panelParametres.add(btnInterdireCategorie);
+		
+		JButton btnAutoriserCategorie = new JButton("<<");
+		btnAutoriserCategorie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String selection = listSCategorieInterdite.getSelectedValue();
+				if (selection != null) {
+					SousCategorieCtrl.setAutorise(selection);
+					instance.refreshSousCategorie();
+				}
+			}
+		});
+		btnAutoriserCategorie.setBounds(206, 322, 82, 23);
+		panelParametres.add(btnAutoriserCategorie);
 		btnVisualiserRecetteParametre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (modeListParametre == true) {
@@ -837,6 +890,34 @@ public class PrincipaleFrame extends JFrame {
 		return mod;
 	}
 	
+	public AbstractListModel remplissageListSCategorieAutorisee() {
+		AbstractListModel mod = new AbstractListModel() {
+			String[] values = SousCategorieCtrl.getAllAutorisee();
+			public int getSize() {
+				return values.length;
+			}
+			public String getElementAt(int index) {
+				return values[index];
+			}
+		};
+		
+		return mod;
+	}
+	
+	public AbstractListModel remplissageListSCategorieInterdite() {
+		AbstractListModel mod = new AbstractListModel() {
+			String[] values = SousCategorieCtrl.getAllInterdite();
+			public int getSize() {
+				return values.length;
+			}
+			public String getElementAt(int index) {
+				return values[index];
+			}
+		};
+		
+		return mod;
+	}
+	
 	public static boolean isPositiveInteger(String str)  
 	{  
 		  try  
@@ -866,5 +947,10 @@ public class PrincipaleFrame extends JFrame {
 	public static void refreshHistorique() {
 		instance.listHistorique.setModel(instance.remplissageListHistoriqueRecette());
 		instance.listHistoriqueParametre.setModel(instance.remplissageListHistoriqueRecette());
+	}
+	
+	public static void refreshSousCategorie() {
+		instance.listSCategorieAutorisee.setModel(instance.remplissageListSCategorieAutorisee());
+		instance.listSCategorieInterdite.setModel(instance.remplissageListSCategorieInterdite());
 	}
 }

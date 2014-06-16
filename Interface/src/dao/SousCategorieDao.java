@@ -21,23 +21,8 @@ public class SousCategorieDao extends Dao<SousCategorie> {
 		return false;
 	}
 	
-	
-	
-	//Permet de mettre à jour que le champs interdit
 	@Override
 	public boolean update(SousCategorie obj) {
-		PreparedStatement pst;
-		try {
-			pst = connect
-					.prepareStatement("UPDATE sous_categorie SET interdit = "+ obj.getInterdit() 
-							+" WHERE id_sous_categorie = " + obj.getIdCategorie());
-
-			pst.executeQuery();
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		return false;
 	}
 
@@ -54,7 +39,7 @@ public class SousCategorieDao extends Dao<SousCategorie> {
 	          id,
 	          rs.getString("nom"),
 	          rs.getBoolean("interdit"),
-	          rs.getInt("id_categories"));         
+	          rs.getInt("id_categorie"));         
 	    } catch (SQLException e) {
 	      e.printStackTrace();
 	    }
@@ -76,11 +61,94 @@ public class SousCategorieDao extends Dao<SousCategorie> {
 	    	          rs.getInt("id_sous_categorie"),
 	    	          rs.getString("nom"),
 	    	          rs.getBoolean("interdit"),
-	    	          rs.getInt("id_categories")));         
+	    	          rs.getInt("id_categorie")));         
 	    } catch (SQLException e) {
 	      e.printStackTrace();
 	    }
 	    return list;
+	}
+
+	public Vector<SousCategorie> getListAllItemsAutorisee() {
+		Vector<SousCategorie> list = new Vector<SousCategorie>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM sous_categorie WHERE interdit = 0");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new SousCategorie(
+	    	          rs.getInt("id_sous_categorie"),
+	    	          rs.getString("nom"),
+	    	          rs.getBoolean("interdit"),
+	    	          rs.getInt("id_categorie")));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
+	}
+
+	public Vector<SousCategorie> getListAllItemsInterdite() {
+		Vector<SousCategorie> list = new Vector<SousCategorie>();
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM sous_categorie WHERE interdit = 1");
+	      rs = s.executeQuery();
+	      while(rs.next())
+	    	  
+	    	  list.add(new SousCategorie(
+	    	          rs.getInt("id_sous_categorie"),
+	    	          rs.getString("nom"),
+	    	          rs.getBoolean("interdit"),
+	    	          rs.getInt("id_categorie")));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return list;
+	}
+
+	public SousCategorie findByName(String sCName) {
+		PreparedStatement pst;
+		ResultSet rs;
+	      
+	    try {
+	      pst = connect.prepareStatement("SELECT * FROM sous_categorie WHERE nom = '" + sCName + "';");
+	      rs = pst.executeQuery();
+	      if(rs.next())
+	        return new SousCategorie(
+	          rs.getInt("id_sous_categorie"),
+	          rs.getString("nom"),
+	          rs.getBoolean("interdit"),
+	          rs.getInt("id_categorie"));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return null;
+	}
+
+	public boolean updateInterdit(SousCategorie sC) {
+		PreparedStatement s;
+	    int row = 0;
+	    
+		int interdit = sC.getInterdit() ? 1 : 0;
+		try {
+			s = connect
+					.prepareStatement("UPDATE sous_categorie SET interdit = " + interdit 
+							+" WHERE id_sous_categorie = " + sC.getIdSousCategorie() + ";");
+
+			s.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (row == 1) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
 	}
 	
 }

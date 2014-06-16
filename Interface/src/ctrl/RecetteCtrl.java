@@ -92,7 +92,7 @@ public class RecetteCtrl {
 	}
 	
 	public static Vector<Recette> getRecetteRapide(int nbRecette) {
-		Vector<Recette> allRecettes = recetteDao.getListAllItems();
+		Vector<Recette> allRecettes = recetteDao.getListAllItemsFiltered();
 		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
 		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
 		
@@ -159,7 +159,7 @@ public class RecetteCtrl {
 	}
 
 	public static String[] getRecettesNames(String nomRecette) {
-		Vector<Recette> recettes = recetteDao.findByNomIncomplet(nomRecette);
+		Vector<Recette> recettes = recetteDao.findByNomIncompletFiltered(nomRecette);
 		String[] nomRecettes = new String[recettes.size()];
 		int i = 0;
 		for (Recette r : recettes) {
