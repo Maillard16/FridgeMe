@@ -68,6 +68,24 @@ public class TypeRecetteDao extends Dao<TypeRecette> {
 	    }
 	    return list;
 	}
+
+	public TypeRecette findByName(String name) {
+		PreparedStatement s;
+		ResultSet rs;
+	      
+	    try {
+	      s = connect.prepareStatement("SELECT * FROM type_recette WHERE nom = '" + name + "';");
+	      rs = s.executeQuery();
+	      if(rs.next())
+	        return new TypeRecette(
+	          rs.getInt("id_type_recette"),
+	          rs.getString("nom")
+	        );         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+		return null;
+	}
 	
 	
 	

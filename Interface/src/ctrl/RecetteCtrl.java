@@ -14,6 +14,7 @@ import dao.UniteDao;
 import bo.Aliment;
 import bo.Recette;
 import bo.RecetteAliment;
+import bo.Repas;
 
 public class RecetteCtrl {
 	static private RecetteDao recetteDao = new RecetteDao();
@@ -51,9 +52,8 @@ public class RecetteCtrl {
 		return score;
 	}
 
-	public static void setAlimentsRecette(Recette recette) {
+	public static void setAlimentsRecette(Recette recette, Vector<RecetteAliment> recetteAliments) {
 		Vector<Aliment> alimentsRecette = new Vector<Aliment>();
-		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItems();
 		for (RecetteAliment rA : recetteAliments) {
 			if (rA.getIdRecette() == recette.getIdRecette()) {
 				Aliment aliment = AlimentCtrl.getAlimentbyId(rA.getIdAliment());
@@ -100,8 +100,9 @@ public class RecetteCtrl {
 		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
 		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
 		
+		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItems();
 		for (Recette r : allRecettes) {
-			RecetteCtrl.setAlimentsRecette(r);
+			RecetteCtrl.setAlimentsRecette(r, recetteAliments);
 		}
 		
 		for (int i = 0; i < nbRecette; i++) {
@@ -131,8 +132,9 @@ public class RecetteCtrl {
 		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
 		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
 		
+		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItems();
 		for (Recette r : allRecettes) {
-			RecetteCtrl.setAlimentsRecette(r);
+			RecetteCtrl.setAlimentsRecette(r, recetteAliments);
 		}
 		
 		for (int i = 0; i < nbRecette; i++) {
@@ -264,5 +266,45 @@ public class RecetteCtrl {
 		    return false;  
 		  } 
 		  return true;  
+	}
+
+	public static Vector<Recette> getRecettePlanning(Vector<String> types) {
+		int nbRecette = types.size();
+		Vector<Recette> allRecettes = recetteDao.getListAllItemsFiltered();
+		Vector<Aliment> aliments = AlimentCtrl.getAlimentFrigo();
+		Vector<Recette> recettesSelectionnees = new Vector<Recette>();
+		
+		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItems();
+		for (Recette r : allRecettes) {
+			RecetteCtrl.setAlimentsRecette(r, recetteAliments);
+		}
+		
+		for (int i = 0; i < nbRecette; i++) {
+			if (allRecettes.size() == 0) {
+				break;
+			}
+			double ptsMax = -1.0;
+			Recette recetteSelectionnee = null;
+			
+			int idType = TypeRecetteCtrl.getIdByName(types.get(i));
+			
+			for (Recette r : allRecettes) {
+				if (r.getIdTypeRecette() != idType) {
+					continue;
+				}
+				double score = RecetteCtrl.getScore(r, aliments);
+				if (score > ptsMax) {
+					ptsMax = score;
+					recetteSelectionnee = r;
+				}
+			}
+			if (ptsMax == -1.0) {
+				return recettesSelectionnees;
+			}
+			recettesSelectionnees.add(recetteSelectionnee);
+			allRecettes.remove(recetteSelectionnee);
+		}
+	
+		return recettesSelectionnees;
 	}
 }

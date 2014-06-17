@@ -1748,6 +1748,7 @@ public class PrincipaleFrame extends JFrame {
 		String nbPersonne = ParametreCtrl.getNbPersonne(1);
 		for (JTextField t : instance.textFieldNbPlan) {
 			t.setText(nbPersonne);
+			t.setEditable(true);
 		}
 		
 		for (JTextField t : instance.textFieldRPlan) {
@@ -1782,19 +1783,26 @@ public class PrincipaleFrame extends JFrame {
 	public void setPlanning() {
 		instance.setEmptyPlanning();
 		
-		Vector<Repas> repas = RepasCtrl.getPlanning();
-		for (Repas r: repas) {
-			int index = ((r.getIdHeureRepas() - 1) * 5) + (r.getJour() - 1);
-			instance.textFieldNbPlan.get(index).setText("" + r.getNombrePersonne());
-			instance.rdbtnPlan.get(index).setSelected(true);
-			Recette recette = RecetteCtrl.getRecetteById(r.getIdRecette());
-			instance.comboBoxPlan.get(index).setSelectedIndex(TypeRecetteCtrl.getIndexByRecette(recette));
-			instance.textFieldRPlan.get(index).setText(recette.getNom());
-			instance.btnPlan.get(index).setEnabled(true);
+		for (JTextField t : instance.textFieldNbPlan) {
+			t.setText("");
+			t.setEditable(false);
 		}
 		
 		for (JComboBox c : instance.comboBoxPlan) {
 			c.setEnabled(false);
+		}
+		
+		Vector<Repas> repas = RepasCtrl.getPlanning();
+		for (Repas r: repas) {
+			int index = ((r.getIdHeureRepas() - 1) * 5) + (r.getJour() - 1);
+			instance.textFieldNbPlan.get(index).setText("" + r.getNombrePersonne());
+			instance.textFieldNbPlan.get(index).setEditable(true);
+			instance.rdbtnPlan.get(index).setSelected(true);
+			Recette recette = RecetteCtrl.getRecetteById(r.getIdRecette());
+			instance.comboBoxPlan.get(index).setSelectedIndex(TypeRecetteCtrl.getIndexByRecette(recette));
+			instance.comboBoxPlan.get(index).setEnabled(true);
+			instance.textFieldRPlan.get(index).setText(recette.getNom());
+			instance.btnPlan.get(index).setEnabled(true);
 		}
 		
 		btnEnregistrerPlanning.setText("Supprimer planning");

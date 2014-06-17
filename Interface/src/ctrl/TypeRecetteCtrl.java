@@ -17,22 +17,17 @@ public class TypeRecetteCtrl {
 		for (TypeRecette tR : typeRecettes) {
 			nomTypeRecette[i++] = tR.getNom();
 		}
-		// On inverse dessert et plat principale
-		nomTypeRecette[0] = typeRecettes.get(2).getNom();
-		nomTypeRecette[2] = typeRecettes.get(0).getNom();
 		
 		return nomTypeRecette;		
 	}
 
 	public static int getIndexByRecette(Recette recette) {
 		int index = recette.getIdTypeRecette() - 1;
-		// On inverse dessert et plat principale
-		if (index == 0) {
-			index = 2;
-		} else if (index == 2) {
-			index = 0;
-		}
 		return index;
+	}
+
+	public static int getIdByName(String name) {
+		return typeRecetteDao.findByName(name).getIdTypeRecette();
 	}
 
 }

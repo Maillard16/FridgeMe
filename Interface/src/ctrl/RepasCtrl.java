@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import dao.RepasDao;
+import bo.Recette;
 import bo.Repas;
 
 public class RepasCtrl {
@@ -46,10 +47,16 @@ public class RepasCtrl {
 				return false;
 			}
 		}
-		// Vector<Repas> repas = new Vector<Repas>();
+		Vector<Recette> recette = RecetteCtrl.getRecettePlanning(types);
+		
+		if (recette.size() != types.size()) {
+			JOptionPane.showMessageDialog(null, "Pas assez de recette de ces types");
+			return false;
+		}
+		
 		Repas repas;
 		for (int i = 0; i < jours.size(); i++) {
-			repas = (new Repas(i, jours.get(i), Integer.valueOf(nbPersonnes.get(i)), i + 1,
+			repas = (new Repas(i + 1, jours.get(i), Integer.valueOf(nbPersonnes.get(i)), recette.get(i).getIdRecette(),
 					heures.get(i)));
 			repasDao.create(repas);
 		}
