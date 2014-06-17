@@ -248,6 +248,7 @@ public class PrincipaleFrame extends JFrame {
 		setTitle("Fridge Me");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 940, 600);
+		setResizable(false);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -1802,6 +1803,7 @@ public class PrincipaleFrame extends JFrame {
 			instance.comboBoxPlan.get(index).setSelectedIndex(TypeRecetteCtrl.getIndexByRecette(recette));
 			instance.comboBoxPlan.get(index).setEnabled(true);
 			instance.textFieldRPlan.get(index).setText(recette.getNom());
+			instance.textFieldRPlan.get(index).setCaretPosition(0);
 			instance.btnPlan.get(index).setEnabled(true);
 		}
 		

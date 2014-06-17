@@ -45,6 +45,7 @@ public class RecetteFrame extends JFrame {
 	public RecetteFrame(final Recette recette, String nbPersonne) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setTitle(recette.getNom());
+		this.setResizable(false);
 		setBounds(100, 100, 727, 664);
 		contentPaneRecette = new JPanel();
 		contentPaneRecette.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,7 +65,7 @@ public class RecetteFrame extends JFrame {
 		contentPaneRecette.add(lblTempsPrep);
 		
 		JLabel lblTempsCuisson = new JLabel("Temps cuisson");
-		lblTempsCuisson.setBounds(295, 47, 114, 15);
+		lblTempsCuisson.setBounds(411, 47, 114, 15);
 		contentPaneRecette.add(lblTempsCuisson);
 		
 		JLabel lblFavoris = new JLabel("Favoris");
@@ -109,7 +110,7 @@ public class RecetteFrame extends JFrame {
 		contentPaneRecette.add(lblImage2);
 		
 		JLabel lblNbPersonne = new JLabel("Nombre de personne");
-		lblNbPersonne.setBounds(297, 22, 140, 15);
+		lblNbPersonne.setBounds(411, 22, 140, 15);
 		contentPaneRecette.add(lblNbPersonne);
 		
 		btnFavoris = new JButton();
@@ -164,7 +165,7 @@ public class RecetteFrame extends JFrame {
 		contentPaneRecette.add(lblTempsPrep2);
 		
 		JLabel lblTempsCuisson2 = new JLabel(recette.getTempsCuisson() + " minutes");
-		lblTempsCuisson2.setBounds(447, 47, 140, 14);
+		lblTempsCuisson2.setBounds(561, 47, 140, 14);
 		contentPaneRecette.add(lblTempsCuisson2);
 		
 		lblFavoris2 = new JLabel();
@@ -173,7 +174,7 @@ public class RecetteFrame extends JFrame {
 		contentPaneRecette.add(lblFavoris2);
 		
 		JLabel lblNbPersonne2 = new JLabel(recette.getNombrePersonne() + "");
-		lblNbPersonne2.setBounds(450, 22, 94, 14);
+		lblNbPersonne2.setBounds(561, 22, 94, 14);
 		contentPaneRecette.add(lblNbPersonne2);
 		
 		JLabel lblIngrdients = new JLabel("Ingrédients");

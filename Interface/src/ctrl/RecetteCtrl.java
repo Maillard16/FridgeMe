@@ -184,21 +184,37 @@ public class RecetteCtrl {
 		return nomRecettes;
 	}
 
-	public static void consommerRecette(Recette recette, String nbPersonne) {
-		if (RecetteCtrl.isPositiveInteger(nbPersonne)) {
+	public static void consommerRecette(Recette recette, String nbPersonneText) {
+		if (!RecetteCtrl.isPositiveInteger(nbPersonneText)) {
 			JOptionPane.showMessageDialog(null,
 					"Nombre de personne incorrect");
+			return;
 		}
+		int nbPersonne = Integer.valueOf(nbPersonneText);
+		double proportion = 0;
+		if (recette.getNombrePersonne() == 0) {
+			proportion = 0;
+		} else {
+			proportion = (double) nbPersonne / (double) recette.getNombrePersonne();
+		}
+		
 		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItemsRecette(recette.getIdRecette());
 		String consommation = "";
 		for (RecetteAliment rA : recetteAliments) {
 			Aliment aliment = alimentDao.find(rA.getIdAliment());
+			// On détermine la quantité consommée en fonction du nombre de personne et de la quantité restante dans le frigo
 			if (aliment.getQuantite() > 0) {
 				int nouvelleQuantite = 0;
 				int quantiteConsommee = 0;
-				if (aliment.getQuantite() > rA.getQuantite()) {
-					nouvelleQuantite = aliment.getQuantite() - rA.getQuantite();
-					quantiteConsommee = rA.getQuantite();
+				int quantiteRecette = rA.getQuantite();
+				if (quantiteRecette * proportion == 0 && quantiteRecette > 0) {
+					quantiteRecette = 1;
+				} else {
+					quantiteRecette = (int) (quantiteRecette * proportion);
+				}
+				if (aliment.getQuantite() > quantiteRecette) {
+					nouvelleQuantite = aliment.getQuantite() - quantiteRecette;
+					quantiteConsommee = quantiteRecette;
 				} else {
 					quantiteConsommee = aliment.getQuantite();
 				}
