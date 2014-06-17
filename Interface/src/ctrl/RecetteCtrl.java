@@ -85,10 +85,14 @@ public class RecetteCtrl {
 		return recetteDao.find(idRecette);
 	}
 
-	public static void AfficherRecetteByName(String nomRecette) {
-		Recette recette = recetteDao.find(recetteDao.findIdByName(nomRecette));
-		RecetteFrame recetteFrame = new RecetteFrame(recette);
-		recetteFrame.setVisible(true);
+	public static void AfficherRecetteByName(String nomRecette, String nbPersonne) {
+		if (RecetteCtrl.isPositiveInteger(nbPersonne)) {
+			Recette recette = recetteDao.find(recetteDao.findIdByName(nomRecette));
+			RecetteFrame recetteFrame = new RecetteFrame(recette, nbPersonne);
+			recetteFrame.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(null, "Nombre de personne incorrect");
+		}
 	}
 	
 	public static Vector<Recette> getRecetteRapide(int nbRecette) {
@@ -178,7 +182,11 @@ public class RecetteCtrl {
 		return nomRecettes;
 	}
 
-	public static void consommerRecette(Recette recette) {
+	public static void consommerRecette(Recette recette, String nbPersonne) {
+		if (RecetteCtrl.isPositiveInteger(nbPersonne)) {
+			JOptionPane.showMessageDialog(null,
+					"Nombre de personne incorrect");
+		}
 		Vector<RecetteAliment> recetteAliments = recetteAlimentDao.getListAllItemsRecette(recette.getIdRecette());
 		String consommation = "";
 		for (RecetteAliment rA : recetteAliments) {
@@ -240,5 +248,21 @@ public class RecetteCtrl {
 			text += rA.getNomComplet() + "\n";
 		}
 		return text;
+	}
+	
+	public static boolean isPositiveInteger(String str)  
+	{  
+		  try  
+		  {  
+		    int i = Integer.parseInt(str);
+		    if (i <= 0) {
+		    	return false;
+		    }
+		  }  
+		  catch(NumberFormatException nfe)  
+		  {  
+		    return false;  
+		  } 
+		  return true;  
 	}
 }

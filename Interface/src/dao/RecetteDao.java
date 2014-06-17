@@ -275,8 +275,8 @@ public class RecetteDao extends Dao<Recette> {
 									     	"ON sc.id_sous_categorie = al.id_sous_categorie " +
 									     	"INNER JOIN recette_aliment as ra " +
 									     	"ON ra.id_aliment = al.id_aliment " +
-											"WHERE sc.interdit = 1 AND ra.id_recette = re.id_recette " +
-									     	"AND re.nom LIKE '%" + nom + "%');");
+											"WHERE sc.interdit = 1 AND ra.id_recette = re.id_recette) " +
+									     	"AND re.nom LIKE '%" + nom + "%';");
 	      rs = s.executeQuery();
 	      while(rs.next()) {
 	    	  Recette r = new Recette(

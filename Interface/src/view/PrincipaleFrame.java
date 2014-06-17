@@ -51,7 +51,9 @@ import ctrl.AlimentCtrl;
 import ctrl.HistoriqueCtrl;
 import ctrl.ParametreCtrl;
 import ctrl.RecetteCtrl;
+import ctrl.RepasCtrl;
 import ctrl.SousCategorieCtrl;
+import ctrl.TypeRecetteCtrl;
 import ctrl.UniteCtrl;
 import bo.*;
 
@@ -63,6 +65,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
 
 public class PrincipaleFrame extends JFrame {
 
@@ -119,7 +122,78 @@ public class PrincipaleFrame extends JFrame {
 	
 	// true pour favoris, false pour historique
 	private boolean modeListParametre = true;
+	private boolean isPlanning = true;
+	
 	private JTextField textFieldNbPersonneJaiFaim;
+	private JTextField textFieldNbMatin1;
+	private JTextField textFieldRMatin1;
+	private JTextField textFieldNbSoir1;
+	private JTextField textFieldRSoir1;
+	private JTextField textFieldNbMidi1;
+	private JTextField textFieldRMidi1;
+	private JTextField textFieldNbMatin2;
+	private JTextField textFieldRMatin2;
+	private JTextField textFieldNbSoir2;
+	private JTextField textFieldRSoir2;
+	private JTextField textFieldNbMidi2;
+	private JTextField textFieldRMidi2;
+	private JTextField textFieldNbMatin3;
+	private JTextField textFieldRMatin3;
+	private JTextField textFieldNbSoir3;
+	private JTextField textFieldRSoir3;
+	private JTextField textFieldNbMidi3;
+	private JTextField textFieldRMidi3;
+	private JTextField textFieldNbMatin4;
+	private JTextField textFieldRMatin4;
+	private JTextField textFieldNbSoir4;
+	private JTextField textFieldRSoir4;
+	private JTextField textFieldNbMidi4;
+	private JTextField textFieldRMidi4;
+	private JTextField textFieldNbMatin5;
+	private JTextField textFieldRMatin5;
+	private JTextField textFieldNbSoir5;
+	private JTextField textFieldRSoir5;
+	private JTextField textFieldNbMidi5;
+	private JTextField textFieldRMidi5;
+	
+	private JComboBox comboBoxMatin1;
+	private JComboBox comboBoxMatin2;
+	private JComboBox comboBoxMatin3;
+	private JComboBox comboBoxMatin4;
+	private JComboBox comboBoxMatin5;
+	
+	private JComboBox comboBoxMidi1;
+	private JComboBox comboBoxMidi2;
+	private JComboBox comboBoxMidi3;
+	private JComboBox comboBoxMidi4;
+	private JComboBox comboBoxMidi5;
+	
+	private JComboBox comboBoxSoir1;
+	private JComboBox comboBoxSoir2;
+	private JComboBox comboBoxSoir3;
+	private JComboBox comboBoxSoir4;
+	private JComboBox comboBoxSoir5;
+	
+	private JRadioButton rdbtnMatin1;
+	private JRadioButton rdbtnMatin2;
+	private JRadioButton rdbtnMatin3;
+	private JRadioButton rdbtnMatin4;
+	private JRadioButton rdbtnMatin5;
+	
+	private JRadioButton rdbtnMidi1;
+	private JRadioButton rdbtnMidi2;
+	private JRadioButton rdbtnMidi3;
+	private JRadioButton rdbtnMidi4;
+	private JRadioButton rdbtnMidi5;
+	
+	private JRadioButton rdbtnSoir1;
+	private JRadioButton rdbtnSoir2;
+	private JRadioButton rdbtnSoir3;
+	private JRadioButton rdbtnSoir4;
+	private JRadioButton rdbtnSoir5;
+	
+	private JButton btnAnnulerPlanning;
+	private JButton btnEnregistrerPlanning;
 	
 	/**
 	 * Launch the application.
@@ -130,6 +204,7 @@ public class PrincipaleFrame extends JFrame {
 				try {
 					JFrame.setDefaultLookAndFeelDecorated(true);
 					instance = new PrincipaleFrame();
+					instance.endConstruction();
 					instance.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -144,12 +219,20 @@ public class PrincipaleFrame extends JFrame {
 	public PrincipaleFrame() {
 		initialize();
 	}
-
+	
+	private void endConstruction() {
+		if (RepasCtrl.isPlanning()) {
+			isPlanning = true;
+		} else {
+			isPlanning = false;
+			setEmptyPlanning();
+		}
+	}
 
 	private void initialize() {
 		setTitle("Fridge Me");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 950, 600);
+		setBounds(100, 100, 940, 600);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -294,9 +377,9 @@ public class PrincipaleFrame extends JFrame {
 		btnAcceuilVoirRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(listFavoris.getSelectedIndex() != -1) {
-					RecetteCtrl.AfficherRecetteByName((String) listFavoris.getSelectedValue());
+					RecetteCtrl.AfficherRecetteByName((String) listFavoris.getSelectedValue(), ParametreCtrl.getNbPersonne(1));
 				} else if( listHistorique.getSelectedIndex() != -1) {
-					RecetteCtrl.AfficherRecetteByName((String) listHistorique.getSelectedValue());
+					RecetteCtrl.AfficherRecetteByName((String) listHistorique.getSelectedValue(), ParametreCtrl.getNbPersonne(1));
 				}
 			}
 		});
@@ -433,7 +516,7 @@ public class PrincipaleFrame extends JFrame {
 		panelListeAlimentFrigo = new JPanel();
 
 		panelListeAlimentFrigo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Liste des aliments", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelListeAlimentFrigo.setBounds(357, 11, 552, 447);
+		panelListeAlimentFrigo.setBounds(347, 11, 552, 447);
 		panelFrigo.add(panelListeAlimentFrigo);
 		panelListeAlimentFrigo.setLayout(null);
 		
@@ -493,7 +576,7 @@ public class PrincipaleFrame extends JFrame {
 		
 		JPanel panelBoutonJaiFaim = new JPanel();
 		panelBoutonJaiFaim.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelBoutonJaiFaim.setBounds(10, 11, 906, 51);
+		panelBoutonJaiFaim.setBounds(10, 11, 889, 51);
 		panelJaiFaim.add(panelBoutonJaiFaim);
 		panelBoutonJaiFaim.setLayout(null);
 		
@@ -542,7 +625,7 @@ public class PrincipaleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String recette = listJaiFaim.getSelectedValue();
 				if (recette != null) {
-					RecetteCtrl.AfficherRecetteByName(recette);
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbPersonneJaiFaim.getText());
 				}
 			}
 		});
@@ -578,29 +661,611 @@ public class PrincipaleFrame extends JFrame {
 		textFieldNbPersonneJaiFaim.setBounds(150, 105, 46, 20);
 		panelJaiFaim.add(textFieldNbPersonneJaiFaim);
 		
+		/**
+		 * 	Planning
+		 */
+		
+		// Jour 1
+		
 		panelPlanning = new JPanel();
 		tabbedPaneMain.addTab("Planning repas", null, panelPlanning, null);
 		panelPlanning.setLayout(null);
 		
-		JPanel panelPlanning1 = new JPanel();
-		panelPlanning1.setBounds(12, 5, 110, 240);
-		panelPlanning.add(panelPlanning1);
+		JPanel panelJour1 = new JPanel();
+		panelJour1.setBounds(10, 11, 170, 432);
+		panelJour1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Jour 1", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPlanning.add(panelJour1);
+		panelJour1.setLayout(null);
 		
-		JPanel panelPlanning2 = new JPanel();
-		panelPlanning2.setBounds(136, 5, 110, 240);
-		panelPlanning.add(panelPlanning2);
+		JLabel lblMatin1 = new JLabel("Matin");
+		lblMatin1.setBounds(10, 23, 46, 14);
+		panelJour1.add(lblMatin1);
 		
-		JPanel panelPlanning3 = new JPanel();
-		panelPlanning3.setBounds(258, 5, 110, 240);
-		panelPlanning.add(panelPlanning3);
+		rdbtnMatin1 = new JRadioButton("");
+		rdbtnMatin1.setBounds(143, 19, 21, 23);
+		panelJour1.add(rdbtnMatin1);
 		
-		JPanel panelPlanning4 = new JPanel();
-		panelPlanning4.setBounds(380, 5, 110, 240);
-		panelPlanning.add(panelPlanning4);
+		comboBoxMatin1 = new JComboBox();
+		comboBoxMatin1.setBounds(10, 48, 150, 20);
+		panelJour1.add(comboBoxMatin1);
 		
-		JPanel panelPlanning5 = new JPanel();
-		panelPlanning5.setBounds(502, 5, 110, 240);
-		panelPlanning.add(panelPlanning5);
+		textFieldNbMatin1 = new JTextField();
+		textFieldNbMatin1.setBounds(104, 20, 33, 20);
+		panelJour1.add(textFieldNbMatin1);
+		textFieldNbMatin1.setColumns(10);
+		
+		textFieldRMatin1 = new JTextField();
+		textFieldRMatin1.setEnabled(false);
+		textFieldRMatin1.setBounds(10, 79, 150, 20);
+		panelJour1.add(textFieldRMatin1);
+		textFieldRMatin1.setColumns(10);
+		
+		JButton btnMatin1 = new JButton("Voir");
+		btnMatin1.setBounds(38, 110, 89, 23);
+		panelJour1.add(btnMatin1);
+		btnMatin1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMatin1.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMatin1.getText());
+				}
+			}
+		});
+		
+		JLabel lblSoir1 = new JLabel("Soir");
+		lblSoir1.setBounds(10, 311, 46, 14);
+		panelJour1.add(lblSoir1);
+		
+		rdbtnSoir1 = new JRadioButton("");
+		rdbtnSoir1.setBounds(143, 307, 21, 23);
+		panelJour1.add(rdbtnSoir1);
+		
+		comboBoxSoir1 = new JComboBox();
+		comboBoxSoir1.setBounds(10, 336, 150, 20);
+		panelJour1.add(comboBoxSoir1);
+		
+		textFieldNbSoir1 = new JTextField();
+		textFieldNbSoir1.setColumns(10);
+		textFieldNbSoir1.setBounds(104, 308, 33, 20);
+		panelJour1.add(textFieldNbSoir1);
+		
+		textFieldRSoir1 = new JTextField();
+		textFieldRSoir1.setEnabled(false);
+		textFieldRSoir1.setColumns(10);
+		textFieldRSoir1.setBounds(10, 367, 150, 20);
+		panelJour1.add(textFieldRSoir1);
+		
+		JButton btnSoir1 = new JButton("Voir");
+		btnSoir1.setBounds(38, 398, 89, 23);
+		panelJour1.add(btnSoir1);
+		btnSoir1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRSoir1.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbSoir1.getText());
+				}
+			}
+		});
+		
+		JLabel lblMidi1 = new JLabel("Midi");
+		lblMidi1.setBounds(10, 165, 46, 14);
+		panelJour1.add(lblMidi1);
+		
+		rdbtnMidi1 = new JRadioButton("");
+		rdbtnMidi1.setBounds(143, 161, 21, 23);
+		panelJour1.add(rdbtnMidi1);
+		
+		comboBoxMidi1 = new JComboBox();
+		comboBoxMidi1.setBounds(10, 190, 150, 20);
+		panelJour1.add(comboBoxMidi1);
+		
+		textFieldNbMidi1 = new JTextField();
+		textFieldNbMidi1.setColumns(10);
+		textFieldNbMidi1.setBounds(104, 162, 33, 20);
+		panelJour1.add(textFieldNbMidi1);
+		
+		textFieldRMidi1 = new JTextField();
+		textFieldRMidi1.setEnabled(false);
+		textFieldRMidi1.setColumns(10);
+		textFieldRMidi1.setBounds(10, 221, 150, 20);
+		panelJour1.add(textFieldRMidi1);
+		
+		JButton btnMidi1 = new JButton("Voir");
+		btnMidi1.setBounds(38, 252, 89, 23);
+		panelJour1.add(btnMidi1);
+		btnMidi1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMidi1.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMidi1.getText());
+				}
+			}
+		});
+		
+		// Jour 2
+		
+		JPanel panelJour2 = new JPanel();
+		panelJour2.setLayout(null);
+		panelJour2.setBounds(190, 11, 170, 432);
+		panelJour2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Jour 2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPlanning.add(panelJour2);
+		
+		JLabel lblMatin2 = new JLabel("Matin");
+		lblMatin2.setBounds(10, 23, 46, 14);
+		panelJour2.add(lblMatin2);
+		
+		rdbtnMatin2 = new JRadioButton("");
+		rdbtnMatin2.setBounds(143, 19, 21, 23);
+		panelJour2.add(rdbtnMatin2);
+		
+		comboBoxMatin2 = new JComboBox();
+		comboBoxMatin2.setBounds(10, 48, 150, 20);
+		panelJour2.add(comboBoxMatin2);
+		
+		textFieldNbMatin2 = new JTextField();
+		textFieldNbMatin2.setColumns(10);
+		textFieldNbMatin2.setBounds(104, 20, 33, 20);
+		panelJour2.add(textFieldNbMatin2);
+		
+		textFieldRMatin2 = new JTextField();
+		textFieldRMatin2.setEnabled(false);
+		textFieldRMatin2.setColumns(10);
+		textFieldRMatin2.setBounds(10, 79, 150, 20);
+		panelJour2.add(textFieldRMatin2);
+		
+		JButton btnMatin2 = new JButton("Voir");
+		btnMatin2.setBounds(38, 110, 89, 23);
+		panelJour2.add(btnMatin2);
+		btnMatin2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMatin2.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMatin2.getText());
+				}
+			}
+		});
+		
+		JLabel lblSoir2 = new JLabel("Soir");
+		lblSoir2.setBounds(10, 311, 46, 14);
+		panelJour2.add(lblSoir2);
+		
+		rdbtnSoir2 = new JRadioButton("");
+		rdbtnSoir2.setBounds(143, 307, 21, 23);
+		panelJour2.add(rdbtnSoir2);
+		
+		comboBoxSoir2 = new JComboBox();
+		comboBoxSoir2.setBounds(10, 336, 150, 20);
+		panelJour2.add(comboBoxSoir2);
+		
+		textFieldNbSoir2 = new JTextField();
+		textFieldNbSoir2.setColumns(10);
+		textFieldNbSoir2.setBounds(104, 308, 33, 20);
+		panelJour2.add(textFieldNbSoir2);
+		
+		textFieldRSoir2 = new JTextField();
+		textFieldRSoir2.setEnabled(false);
+		textFieldRSoir2.setColumns(10);
+		textFieldRSoir2.setBounds(10, 367, 150, 20);
+		panelJour2.add(textFieldRSoir2);
+		
+		JButton btnSoir2 = new JButton("Voir");
+		btnSoir2.setBounds(38, 398, 89, 23);
+		panelJour2.add(btnSoir2);
+		btnSoir2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRSoir2.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbSoir2.getText());
+				}
+			}
+		});
+		
+		JLabel lblMidi2 = new JLabel("Midi");
+		lblMidi2.setBounds(10, 165, 46, 14);
+		panelJour2.add(lblMidi2);
+		
+		rdbtnMidi2 = new JRadioButton("");
+		rdbtnMidi2.setBounds(143, 161, 21, 23);
+		panelJour2.add(rdbtnMidi2);
+		
+		comboBoxMidi2 = new JComboBox();
+		comboBoxMidi2.setBounds(10, 190, 150, 20);
+		panelJour2.add(comboBoxMidi2);
+		
+		textFieldNbMidi2 = new JTextField();
+		textFieldNbMidi2.setColumns(10);
+		textFieldNbMidi2.setBounds(104, 162, 33, 20);
+		panelJour2.add(textFieldNbMidi2);
+		
+		textFieldRMidi2 = new JTextField();
+		textFieldRMidi2.setEnabled(false);
+		textFieldRMidi2.setColumns(10);
+		textFieldRMidi2.setBounds(10, 221, 150, 20);
+		panelJour2.add(textFieldRMidi2);
+		
+		JButton btnMidi2 = new JButton("Voir");
+		btnMidi2.setBounds(38, 252, 89, 23);
+		panelJour2.add(btnMidi2);
+		btnMidi2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMidi2.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMidi2.getText());
+				}
+			}
+		});
+		
+		// Jour 3
+		
+		JPanel panelJour3 = new JPanel();
+		panelJour3.setLayout(null);
+		panelJour3.setBounds(370, 11, 170, 432);
+		panelJour3.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Jour 3", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPlanning.add(panelJour3);
+		
+		JLabel lblMatin3 = new JLabel("Matin");
+		lblMatin3.setBounds(10, 23, 46, 14);
+		panelJour3.add(lblMatin3);
+		
+		rdbtnMatin3 = new JRadioButton("");
+		rdbtnMatin3.setBounds(143, 19, 21, 23);
+		panelJour3.add(rdbtnMatin3);
+		
+		comboBoxMatin3 = new JComboBox();
+		comboBoxMatin3.setBounds(10, 48, 150, 20);
+		panelJour3.add(comboBoxMatin3);
+		
+		textFieldNbMatin3 = new JTextField();
+		textFieldNbMatin3.setColumns(10);
+		textFieldNbMatin3.setBounds(104, 20, 33, 20);
+		panelJour3.add(textFieldNbMatin3);
+		
+		textFieldRMatin3 = new JTextField();
+		textFieldRMatin3.setEnabled(false);
+		textFieldRMatin3.setColumns(10);
+		textFieldRMatin3.setBounds(10, 79, 150, 20);
+		panelJour3.add(textFieldRMatin3);
+		
+		JButton btnMatin3 = new JButton("Voir");
+		btnMatin3.setBounds(38, 110, 89, 23);
+		panelJour3.add(btnMatin3);
+		btnMatin3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMatin3.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMatin3.getText());
+				}
+			}
+		});
+		
+		JLabel lblSoir3 = new JLabel("Soir");
+		lblSoir3.setBounds(10, 311, 46, 14);
+		panelJour3.add(lblSoir3);
+		
+		rdbtnSoir3 = new JRadioButton("");
+		rdbtnSoir3.setBounds(143, 307, 21, 23);
+		panelJour3.add(rdbtnSoir3);
+		
+		comboBoxSoir3 = new JComboBox();
+		comboBoxSoir3.setBounds(10, 336, 150, 20);
+		panelJour3.add(comboBoxSoir3);
+		
+		textFieldNbSoir3 = new JTextField();
+		textFieldNbSoir3.setColumns(10);
+		textFieldNbSoir3.setBounds(104, 308, 33, 20);
+		panelJour3.add(textFieldNbSoir3);
+		
+		textFieldRSoir3 = new JTextField();
+		textFieldRSoir3.setEnabled(false);
+		textFieldRSoir3.setColumns(10);
+		textFieldRSoir3.setBounds(10, 367, 150, 20);
+		panelJour3.add(textFieldRSoir3);
+		
+		JButton btnSoir3 = new JButton("Voir");
+		btnSoir3.setBounds(38, 398, 89, 23);
+		panelJour3.add(btnSoir3);
+		btnSoir3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRSoir3.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbSoir3.getText());
+				}
+			}
+		});
+		
+		JLabel lblMidi3 = new JLabel("Midi");
+		lblMidi3.setBounds(10, 165, 46, 14);
+		panelJour3.add(lblMidi3);
+		
+		rdbtnMidi3 = new JRadioButton("");
+		rdbtnMidi3.setBounds(143, 161, 21, 23);
+		panelJour3.add(rdbtnMidi3);
+		
+		comboBoxMidi3 = new JComboBox();
+		comboBoxMidi3.setBounds(10, 190, 150, 20);
+		panelJour3.add(comboBoxMidi3);
+		
+		textFieldNbMidi3 = new JTextField();
+		textFieldNbMidi3.setColumns(10);
+		textFieldNbMidi3.setBounds(104, 162, 33, 20);
+		panelJour3.add(textFieldNbMidi3);
+		
+		textFieldRMidi3 = new JTextField();
+		textFieldRMidi3.setEnabled(false);
+		textFieldRMidi3.setColumns(10);
+		textFieldRMidi3.setBounds(10, 221, 150, 20);
+		panelJour3.add(textFieldRMidi3);
+		
+		JButton btnMidi3 = new JButton("Voir");
+		btnMidi3.setBounds(38, 252, 89, 23);
+		panelJour3.add(btnMidi3);
+		btnMidi3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMidi3.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMidi3.getText());
+				}
+			}
+		});
+		
+		// Jour 4
+		
+		JPanel panelJour4 = new JPanel();
+		panelJour4.setLayout(null);
+		panelJour4.setBounds(550, 11, 170, 432);
+		panelJour4.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Jour 4", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPlanning.add(panelJour4);
+		
+		JLabel lblMatin4 = new JLabel("Matin");
+		lblMatin4.setBounds(10, 23, 46, 14);
+		panelJour4.add(lblMatin4);
+		
+		rdbtnMatin4 = new JRadioButton("");
+		rdbtnMatin4.setBounds(143, 19, 21, 23);
+		panelJour4.add(rdbtnMatin4);
+		
+		comboBoxMatin4 = new JComboBox();
+		comboBoxMatin4.setBounds(10, 48, 150, 20);
+		panelJour4.add(comboBoxMatin4);
+		
+		textFieldNbMatin4 = new JTextField();
+		textFieldNbMatin4.setColumns(10);
+		textFieldNbMatin4.setBounds(104, 20, 33, 20);
+		panelJour4.add(textFieldNbMatin4);
+		
+		textFieldRMatin4 = new JTextField();
+		textFieldRMatin4.setEnabled(false);
+		textFieldRMatin4.setColumns(10);
+		textFieldRMatin4.setBounds(10, 79, 150, 20);
+		panelJour4.add(textFieldRMatin4);
+		
+		JButton btnMatin4 = new JButton("Voir");
+		btnMatin4.setBounds(38, 110, 89, 23);
+		panelJour4.add(btnMatin4);
+		btnMatin4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMatin4.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMatin4.getText());
+				}
+			}
+		});
+		
+		JLabel lblSoir = new JLabel("Soir");
+		lblSoir.setBounds(10, 311, 46, 14);
+		panelJour4.add(lblSoir);
+		
+		rdbtnSoir4 = new JRadioButton("");
+		rdbtnSoir4.setBounds(143, 307, 21, 23);
+		panelJour4.add(rdbtnSoir4);
+		
+		comboBoxSoir4 = new JComboBox();
+		comboBoxSoir4.setBounds(10, 336, 150, 20);
+		panelJour4.add(comboBoxSoir4);
+		
+		textFieldNbSoir4 = new JTextField();
+		textFieldNbSoir4.setColumns(10);
+		textFieldNbSoir4.setBounds(104, 308, 33, 20);
+		panelJour4.add(textFieldNbSoir4);
+		
+		textFieldRSoir4 = new JTextField();
+		textFieldRSoir4.setEnabled(false);
+		textFieldRSoir4.setColumns(10);
+		textFieldRSoir4.setBounds(10, 367, 150, 20);
+		panelJour4.add(textFieldRSoir4);
+		
+		JButton btnSoir4 = new JButton("Voir");
+		btnSoir4.setBounds(38, 398, 89, 23);
+		panelJour4.add(btnSoir4);
+		btnSoir4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRSoir4.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbSoir4.getText());
+				}
+			}
+		});
+		
+		JLabel lblMidi4 = new JLabel("Midi");
+		lblMidi4.setBounds(10, 165, 46, 14);
+		panelJour4.add(lblMidi4);
+		
+		rdbtnMidi4 = new JRadioButton("");
+		rdbtnMidi4.setBounds(143, 161, 21, 23);
+		panelJour4.add(rdbtnMidi4);
+		
+		comboBoxMidi4 = new JComboBox();
+		comboBoxMidi4.setBounds(10, 190, 150, 20);
+		panelJour4.add(comboBoxMidi4);
+		
+		textFieldNbMidi4 = new JTextField();
+		textFieldNbMidi4.setColumns(10);
+		textFieldNbMidi4.setBounds(104, 162, 33, 20);
+		panelJour4.add(textFieldNbMidi4);
+		
+		textFieldRMidi4 = new JTextField();
+		textFieldRMidi4.setEnabled(false);
+		textFieldRMidi4.setColumns(10);
+		textFieldRMidi4.setBounds(10, 221, 150, 20);
+		panelJour4.add(textFieldRMidi4);
+		
+		JButton btnMidi4 = new JButton("Voir");
+		btnMidi4.setBounds(38, 252, 89, 23);
+		panelJour4.add(btnMidi4);
+		btnMidi4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMidi4.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMidi4.getText());
+				}
+			}
+		});
+		
+		// Jour 5
+		
+		JPanel panelJour5 = new JPanel();
+		panelJour5.setLayout(null);
+		panelJour5.setBounds(730, 11, 170, 432);
+		panelJour5.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Jour 5", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPlanning.add(panelJour5);
+		
+		JLabel lblMatin5 = new JLabel("Matin");
+		lblMatin5.setBounds(10, 23, 46, 14);
+		panelJour5.add(lblMatin5);
+		
+		rdbtnMatin5 = new JRadioButton("");
+		rdbtnMatin5.setBounds(143, 19, 21, 23);
+		panelJour5.add(rdbtnMatin5);
+		
+		comboBoxMatin5 = new JComboBox();
+		comboBoxMatin5.setBounds(10, 48, 150, 20);
+		panelJour5.add(comboBoxMatin5);
+		
+		textFieldNbMatin5 = new JTextField();
+		textFieldNbMatin5.setColumns(10);
+		textFieldNbMatin5.setBounds(104, 20, 33, 20);
+		panelJour5.add(textFieldNbMatin5);
+		
+		textFieldRMatin5 = new JTextField();
+		textFieldRMatin5.setEnabled(false);
+		textFieldRMatin5.setColumns(10);
+		textFieldRMatin5.setBounds(10, 79, 150, 20);
+		panelJour5.add(textFieldRMatin5);
+		
+		JButton btnMatin5 = new JButton("Voir");
+		btnMatin5.setBounds(38, 110, 89, 23);
+		panelJour5.add(btnMatin5);
+		btnMatin5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMatin5.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMatin5.getText());
+				}
+			}
+		});
+		
+		JLabel lblSoir5 = new JLabel("Soir");
+		lblSoir5.setBounds(10, 311, 46, 14);
+		panelJour5.add(lblSoir5);
+		
+		rdbtnSoir5 = new JRadioButton("");
+		rdbtnSoir5.setBounds(143, 307, 21, 23);
+		panelJour5.add(rdbtnSoir5);
+		
+		comboBoxSoir5 = new JComboBox();
+		comboBoxSoir5.setBounds(10, 336, 150, 20);
+		panelJour5.add(comboBoxSoir5);
+		
+		textFieldNbSoir5 = new JTextField();
+		textFieldNbSoir5.setColumns(10);
+		textFieldNbSoir5.setBounds(104, 308, 33, 20);
+		panelJour5.add(textFieldNbSoir5);
+		
+		textFieldRSoir5 = new JTextField();
+		textFieldRSoir5.setEnabled(false);
+		textFieldRSoir5.setColumns(10);
+		textFieldRSoir5.setBounds(10, 367, 150, 20);
+		panelJour5.add(textFieldRSoir5);
+		
+		JButton btnSoir5 = new JButton("Voir");
+		btnSoir5.setBounds(38, 398, 89, 23);
+		panelJour5.add(btnSoir5);
+		btnSoir5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRSoir5.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbSoir5.getText());
+				}
+			}
+		});
+		
+		JLabel lblMidi5 = new JLabel("Midi");
+		lblMidi5.setBounds(10, 165, 46, 14);
+		panelJour5.add(lblMidi5);
+		
+		rdbtnMidi5 = new JRadioButton("");
+		rdbtnMidi5.setBounds(143, 161, 21, 23);
+		panelJour5.add(rdbtnMidi5);
+		
+		comboBoxMidi5 = new JComboBox();
+		comboBoxMidi5.setBounds(10, 190, 150, 20);
+		panelJour5.add(comboBoxMidi5);
+		
+		textFieldNbMidi5 = new JTextField();
+		textFieldNbMidi5.setColumns(10);
+		textFieldNbMidi5.setBounds(104, 162, 33, 20);
+		panelJour5.add(textFieldNbMidi5);
+		
+		textFieldRMidi5 = new JTextField();
+		textFieldRMidi5.setEnabled(false);
+		textFieldRMidi5.setColumns(10);
+		textFieldRMidi5.setBounds(10, 221, 150, 20);
+		panelJour5.add(textFieldRMidi5);
+		
+		JButton btnMidi5 = new JButton("Voir");
+		btnMidi5.setBounds(38, 252, 89, 23);
+		panelJour5.add(btnMidi5);
+		btnMidi5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String recette = textFieldRMidi5.getText();
+				if (!recette.equals("")) {
+					RecetteCtrl.AfficherRecetteByName(recette, textFieldNbMidi5.getText());
+				}
+			}
+		});
+		
+		btnAnnulerPlanning = new JButton("Annuler");
+		btnAnnulerPlanning.setBounds(251, 453, 154, 39);
+		panelPlanning.add(btnAnnulerPlanning);
+		btnAnnulerPlanning.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				setEmptyPlanning();
+			}
+		});
+		
+		btnEnregistrerPlanning = new JButton("");
+		btnEnregistrerPlanning.setBounds(460, 453, 190, 39);
+		panelPlanning.add(btnEnregistrerPlanning);
+		
+		/**
+		 *  Parametres
+		 */
 		
 		panelParametres = new JPanel();
 		tabbedPaneMain.addTab("Param\u00E8tres", null, panelParametres, null);
@@ -629,6 +1294,9 @@ public class PrincipaleFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ParametreCtrl.updateNbPersonne(textFieldNbPersonneParametre.getText());
 				textFieldNbPersonneJaiFaim.setText(ParametreCtrl.getNbPersonne(1));
+				if (isPlanning == false) {
+					instance.setEmptyPlanning();
+				}
 			}
 		});
 		
@@ -654,7 +1322,7 @@ public class PrincipaleFrame extends JFrame {
 		
 		JPanel panelFavorisParametre = new JPanel();
 		panelFavorisParametre.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelFavorisParametre.setBounds(525, 11, 391, 481);
+		panelFavorisParametre.setBounds(508, 11, 391, 481);
 		panelParametres.add(panelFavorisParametre);
 		panelFavorisParametre.setLayout(null);
 		
@@ -755,12 +1423,12 @@ public class PrincipaleFrame extends JFrame {
 				if (modeListParametre == true) {
 					String recette = listFavorisParametre.getSelectedValue();
 					if (recette != null) {
-						RecetteCtrl.AfficherRecetteByName(recette);
+						RecetteCtrl.AfficherRecetteByName(recette, ParametreCtrl.getNbPersonne(1));
 					}
 				} else {
 					String recette = listHistoriqueParametre.getSelectedValue();
 					if (recette != null) {
-						RecetteCtrl.AfficherRecetteByName(recette);
+						RecetteCtrl.AfficherRecetteByName(recette, ParametreCtrl.getNbPersonne(1));
 					}
 				}
 			}
@@ -810,7 +1478,7 @@ public class PrincipaleFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String recette = listRecetteRecherche.getSelectedValue();
 				if (recette != null) {
-					RecetteCtrl.AfficherRecetteByName(recette);
+					RecetteCtrl.AfficherRecetteByName(recette, ParametreCtrl.getNbPersonne(1));
 				}
 			}
 		});
@@ -952,5 +1620,77 @@ public class PrincipaleFrame extends JFrame {
 	public static void refreshSousCategorie() {
 		instance.listSCategorieAutorisee.setModel(instance.remplissageListSCategorieAutorisee());
 		instance.listSCategorieInterdite.setModel(instance.remplissageListSCategorieInterdite());
+	}
+
+	public void setEmptyPlanning() {
+		String nbPersonne = ParametreCtrl.getNbPersonne(1);
+		instance.textFieldNbMatin1.setText(nbPersonne);
+		instance.textFieldNbMatin2.setText(nbPersonne);
+		instance.textFieldNbMatin3.setText(nbPersonne);
+		instance.textFieldNbMatin4.setText(nbPersonne);
+		instance.textFieldNbMatin5.setText(nbPersonne);
+		instance.textFieldNbMidi1.setText(nbPersonne);
+		instance.textFieldNbMidi2.setText(nbPersonne);
+		instance.textFieldNbMidi3.setText(nbPersonne);
+		instance.textFieldNbMidi4.setText(nbPersonne);
+		instance.textFieldNbMidi5.setText(nbPersonne);
+		instance.textFieldNbSoir1.setText(nbPersonne);
+		instance.textFieldNbSoir2.setText(nbPersonne);
+		instance.textFieldNbSoir3.setText(nbPersonne);
+		instance.textFieldNbSoir4.setText(nbPersonne);
+		instance.textFieldNbSoir5.setText(nbPersonne);
+		
+		instance.comboBoxMatin1.removeAllItems();
+		instance.comboBoxMatin2.removeAllItems();
+		instance.comboBoxMatin3.removeAllItems();
+		instance.comboBoxMatin4.removeAllItems();
+		instance.comboBoxMatin5.removeAllItems();
+		instance.comboBoxMidi1.removeAllItems();
+		instance.comboBoxMidi2.removeAllItems();
+		instance.comboBoxMidi3.removeAllItems();
+		instance.comboBoxMidi4.removeAllItems();
+		instance.comboBoxMidi5.removeAllItems();
+		instance.comboBoxSoir1.removeAllItems();
+		instance.comboBoxSoir2.removeAllItems();
+		instance.comboBoxSoir3.removeAllItems();
+		instance.comboBoxSoir4.removeAllItems();
+		instance.comboBoxSoir5.removeAllItems();
+		
+		String[] typeRecette = TypeRecetteCtrl.getAllTypeRecetteNames();
+		for (String type : typeRecette) {
+			instance.comboBoxMatin1.addItem(type);
+			instance.comboBoxMatin2.addItem(type);
+			instance.comboBoxMatin3.addItem(type);
+			instance.comboBoxMatin4.addItem(type);
+			instance.comboBoxMatin5.addItem(type);
+			instance.comboBoxMidi1.addItem(type);
+			instance.comboBoxMidi2.addItem(type);
+			instance.comboBoxMidi3.addItem(type);
+			instance.comboBoxMidi4.addItem(type);
+			instance.comboBoxMidi5.addItem(type);
+			instance.comboBoxSoir1.addItem(type);
+			instance.comboBoxSoir2.addItem(type);
+			instance.comboBoxSoir3.addItem(type);
+			instance.comboBoxSoir4.addItem(type);
+			instance.comboBoxSoir5.addItem(type);
+		}
+		
+		instance.rdbtnMatin1.setSelected(false);
+		instance.rdbtnMatin2.setSelected(false);
+		instance.rdbtnMatin3.setSelected(false);
+		instance.rdbtnMatin4.setSelected(false);
+		instance.rdbtnMatin5.setSelected(false);
+		instance.rdbtnMidi1.setSelected(false);
+		instance.rdbtnMidi2.setSelected(false);
+		instance.rdbtnMidi3.setSelected(false);
+		instance.rdbtnMidi4.setSelected(false);
+		instance.rdbtnMidi5.setSelected(false);
+		instance.rdbtnSoir1.setSelected(false);
+		instance.rdbtnSoir2.setSelected(false);
+		instance.rdbtnSoir3.setSelected(false);
+		instance.rdbtnSoir4.setSelected(false);
+		instance.rdbtnSoir5.setSelected(false);
+		
+		btnEnregistrerPlanning.setText("Générer planning");
 	}
 }
