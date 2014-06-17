@@ -12,7 +12,17 @@ public class RepasDao extends Dao<Repas> {
 
 	@Override
 	public boolean create(Repas obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement pst;
+		try {
+			pst = connect.prepareStatement("INSERT INTO repas (id_repas, jour, nombre_personne, id_recette, id_heure_repas)" +
+										   "VALUES (" + obj.getIdRepas() + ", " + obj.getJour() + ", " + obj.getNombrePersonne() +
+										   			", " + obj.getIdRecette() + ", " + obj.getIdHeureRepas() + ");");
+			pst.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -73,6 +83,24 @@ public class RepasDao extends Dao<Repas> {
 	      e.printStackTrace();
 	    }
 	    return list;
+	}
+
+	public boolean dropPlanning() {
+		PreparedStatement s;
+	    int row = 0;
+	    
+	    try {
+	      s = connect.prepareStatement("DELETE FROM repas;");
+	      row = s.executeUpdate();   
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    
+	    if (row == 1) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
 	}
 	
 

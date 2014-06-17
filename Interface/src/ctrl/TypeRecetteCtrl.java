@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import dao.TypeRecetteDao;
 import bo.Aliment;
+import bo.Recette;
 import bo.TypeRecette;
 
 public class TypeRecetteCtrl {
@@ -21,6 +22,17 @@ public class TypeRecetteCtrl {
 		nomTypeRecette[2] = typeRecettes.get(0).getNom();
 		
 		return nomTypeRecette;		
+	}
+
+	public static int getIndexByRecette(Recette recette) {
+		int index = recette.getIdTypeRecette() - 1;
+		// On inverse dessert et plat principale
+		if (index == 0) {
+			index = 2;
+		} else if (index == 2) {
+			index = 0;
+		}
+		return index;
 	}
 
 }
