@@ -1,3 +1,15 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : UniteCtrl.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : Contrôleur d'Unite.
+ -------------------------------------------------------------------------------
+ */
+
 package ctrl;
 
 import java.util.Vector;

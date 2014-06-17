@@ -1,3 +1,15 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : CategorieDao.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : DAO de Categorie.
+ -------------------------------------------------------------------------------
+ */
+
 package dao;
 
 import java.sql.PreparedStatement;

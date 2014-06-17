@@ -1,3 +1,15 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : Recette.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : Modèle de Recette
+ -------------------------------------------------------------------------------
+ */
+
 package bo;
 
 import java.util.Vector;

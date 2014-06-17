@@ -1,3 +1,15 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : PrincipaleFrame.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : Classe principale implémentant la fenêtre de l'application.
+ -------------------------------------------------------------------------------
+ */
+
 package view;
 
 import java.awt.BorderLayout;
@@ -69,9 +81,6 @@ import javax.swing.JRadioButton;
 
 public class PrincipaleFrame extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tableAlimentFrigo;
@@ -616,7 +625,7 @@ public class PrincipaleFrame extends JFrame {
 		btnRecetteRapide.setBounds(179, 11, 124, 23);
 		panelBoutonJaiFaim.add(btnRecetteRapide);
 		
-		JButton btnRecetteFavoris = new JButton("Recette parmis favoris");
+		JButton btnRecetteFavoris = new JButton("Recette parmi favoris");
 		btnRecetteFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (PrincipaleFrame.isPositiveInteger(textFieldNbRecetteJaiFaim.getText())) {

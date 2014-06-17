@@ -1,4 +1,17 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : AlimentCtrl.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : Contrôleur d'Aliment.
+ -------------------------------------------------------------------------------
+ */
+
 package ctrl;
+
 import java.util.Vector;
 
 import javax.swing.table.TableModel;

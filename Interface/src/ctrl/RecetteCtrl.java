@@ -1,3 +1,15 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : RecetteCtrl.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : Contrôleur de Recette.
+ -------------------------------------------------------------------------------
+ */
+
 package ctrl;
 
 import java.util.Arrays;
@@ -207,7 +219,7 @@ public class RecetteCtrl {
 				int nouvelleQuantite = 0;
 				int quantiteConsommee = 0;
 				int quantiteRecette = rA.getQuantite();
-				if (quantiteRecette * proportion == 0 && quantiteRecette > 0) {
+				if ((int)(quantiteRecette * proportion) == 0 && quantiteRecette > 0) {
 					quantiteRecette = 1;
 				} else {
 					quantiteRecette = (int) (quantiteRecette * proportion);

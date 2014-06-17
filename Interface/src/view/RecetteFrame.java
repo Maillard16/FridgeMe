@@ -1,3 +1,15 @@
+/*
+ -------------------------------------------------------------------------------
+ Laboratoire : Projet PRO
+ Fichier     : RecetteFrame.java
+ Auteur(s)   : Julien Bignens, Stéphane Maillard, Anthony Roubaty, Yannick Widmer
+ 			   et Amine Tayaa
+ Date        : 05.2014
+
+ But         : Implémente l'affiche d'une fenêtre de recette.
+ -------------------------------------------------------------------------------
+ */
+
 package view;
 
 import java.awt.BorderLayout;
